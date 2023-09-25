@@ -1,38 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Subdomains with Next.js - Local Environment Starter
+
+This is a starter template for creating a Next.js application with subdomain support in a local development environment. You can use this template as a foundation for building applications that require subdomain routing.
+
+## Features
+
+- Dynamic subdomain routing: Access different content based on subdomains (e.g., `keyword.localhost:3000`).
+- User data simulation: Utilizes a mock user API to demonstrate subdomain-based data rendering.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to get started with this Next.js subdomain template:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+1. Clone the repository to your local machine:
+
+   ```bash
+   git clone https://github.com/your-username/nextjs-subdomain-template.git
+Install dependencies:
+```js
+    cd nextjs-subdomain-template
+    npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
+```js
+npm run dev
+```
+Access your application using subdomains:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Open your web browser and navigate to *.localhost:3000.
+Try accessing subdomains like keyword.localhost:3000.
+Usage
+Customizing Subdomain Data
+This template includes a simulated user API.
+The "about" page (/about) displays different data based on the subdomain.
+Customize data for each subdomain by modifying the getUserBySubdomain function in lib/users.js.
+Adding Your Own Pages
+Extend the project by adding your own pages and components under the pages directory.
+Follow the subdomain routing logic in the middleware.js file to create dynamic subdomain-based pages.
+Contributing
+Feel free to contribute to this project by opening issues or submitting pull requests. Your contributions are welcome!
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
