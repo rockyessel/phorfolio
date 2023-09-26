@@ -1,3 +1,6 @@
+// pages/subdomain/[subdomain]/[pages]/index.tsx
+
+
 import { useRouter } from 'next/router';
 import { UserData } from '@/interface';
 import {
@@ -76,6 +79,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }))
   );
 
+
+  // console.log('paths: ', paths);
   return {
     paths,
     fallback: false, // or true if you want to handle unknown pages
