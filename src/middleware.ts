@@ -11,7 +11,7 @@ export default async function middleware(req: NextRequest) {
   const hostname = req.headers.get('host');
   const currentHost =
     process.env.NODE_ENV === 'production' && process.env.VERCEL === '1'
-      ? hostname!.replace(`.example.com`, '')
+      ? hostname!.replace(`.phorfolio.site`, '')
       : hostname!.replace(`.localhost:3000`, '');
 
   // validate subdomain here
