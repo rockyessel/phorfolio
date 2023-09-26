@@ -8,7 +8,9 @@ export const getAllUsers = async () => {
 
 export const getUserBySubdomain = async (username: string) => {
   const users = await getAllUsers();
-  const foundUser = users.find((user) => user.username.toLowerCase() === username.toLowerCase());
+  const foundUser = users.find(
+    (user) => user.username.toLowerCase() === username.toLowerCase()
+  );
   if (foundUser) return foundUser;
   else return { error: 'User not found.' };
 };
@@ -17,5 +19,12 @@ export const userStaticPaths = async () => {
   const users = await getAllUsers();
   return users.map((user) => {
     return { params: { subdomain: user.username.toLowerCase() } };
+  });
+};
+
+export const userStaticPathsSubdomain = async () => {
+  const users = await getAllUsers();
+  return users.map((user) => {
+    return { username: user.username.toLowerCase() };
   });
 };
