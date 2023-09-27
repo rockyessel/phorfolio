@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://phorfolio.site
+
+# Sitemaps
+Sitemap: https://phorfolio.site/sitemap.xml

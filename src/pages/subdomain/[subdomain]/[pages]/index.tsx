@@ -1,6 +1,5 @@
 // pages/subdomain/[subdomain]/[pages]/index.tsx
 
-
 import { useRouter } from 'next/router';
 import { UserData } from '@/interface';
 import {
@@ -9,8 +8,17 @@ import {
   userStaticPathsSubdomain,
 } from '@/lib/users';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import ResumePageTemp from '@/template/resume';
+import ArticlesPageTemp from '@/template/articles';
+import ProjectsPageTemp from '@/template/projects';
+import AboutPageTemp from '@/template/about';
+import ContactPageTemp from '@/template/contact';
 
-export default function Index(props: { user: UserData; subdomain: string, pages:string }) {
+export default function Index(props: {
+  user: UserData;
+  subdomain: string;
+  pages: string;
+}) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -25,18 +33,19 @@ export default function Index(props: { user: UserData; subdomain: string, pages:
 
   switch (props.pages) {
     case 'about':
-      return (
-        <main className='prose'>
-          <h1>About {props.user.name}</h1>
-        </main>
-      );
+      return <AboutPageTemp aboutData={undefined} />;
+
+    case 'projects':
+      return <ProjectsPageTemp projects={undefined} />;
+
+    case 'articles':
+      return <ArticlesPageTemp articles={undefined} />;
+
+    case 'resume':
+      return <ResumePageTemp resumeData={undefined} />;
 
     case 'contact':
-      return (
-        <main className='prose'>
-          <h1>Contact me @: {props.user.email}</h1>
-        </main>
-      );
+      return <ContactPageTemp />;
 
     default:
       return (
@@ -66,6 +75,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
     {
       page: 'contact',
     },
+    {
+      page: 'resume',
+    },
+    {
+      page: 'articles',
+    },
+    {
+      page: 'projects',
+    },
     // Add more pages as needed
   ];
 
@@ -78,7 +96,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
     }))
   );
-
 
   // console.log('paths: ', paths);
   return {

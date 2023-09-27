@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUserBySubdomain } from './lib/users';
 import { UserData } from './interface';
 
-// export const config = {
-//   matcher: ['/', '/about', '/_subdomain/:path*'],
-// };
 export const config = {
   matcher: [
     /*
@@ -17,6 +14,8 @@ export const config = {
     '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',
   ],
 };
+
+
 export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const hostname = req.headers.get('host');
