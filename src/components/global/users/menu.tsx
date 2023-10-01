@@ -15,7 +15,7 @@ const UserMenu = () => {
   const { data: session, status } = useSession();
   const user = { ...session?.user } as User;
 
-  const toggleUserDropdown = () =>{console.log('Toggling user dropdown'); setShowUserDropdown((preState)=>!preState);}
+  const toggleUserDropdown = () => setShowUserDropdown((preState)=>!preState)
   const handleSignOut = () => signOut();
 
   React.useEffect(() => {

@@ -22,10 +22,7 @@ const initialUserAccountEnv: UserAccountEnvProps = {
 
 const UserSettings = () => {
   const [envVariable, setEnvVariable] = React.useState(initialUserAccountEnv);
-  const [isContentCreatedBefore, setIsContentCreatedBefore] =
-    React.useState<boolean>(false);
-
-  console.log('isContentCreatedBefore: ', isContentCreatedBefore);
+  const [isContentCreatedBefore, setIsContentCreatedBefore] = React.useState<boolean>(false);
 
   const router = useRouter();
 
@@ -46,8 +43,6 @@ const UserSettings = () => {
       );
     }
   }, [isContentCreatedBefore, user.id]);
-
-  console.log('envVariable: ', envVariable);
 
   const handleHomeContentChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

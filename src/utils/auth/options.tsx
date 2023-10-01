@@ -37,7 +37,6 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          console.log('credentials: ', credentials);
           const user = await getUserByEmail(credentials.email);
           const { password, ...newUserData } = user; //removed password
           const isCorrectPassword = await bcrypt.compare(
@@ -82,10 +81,6 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async redirect({ url, baseUrl }) {
       
-      // const subdomain = req.headers.host.split('.')[0];
-      console.log('baseUrl: ', baseUrl);
-      console.log('url: ', url);
-
       return baseUrl;
     },
     async jwt({ profile, token }) {
@@ -119,23 +114,18 @@ export const authOptions: AuthOptions = {
           //generate the username using the email,
           //and also, users can change it later.
           if ('iss' in profile) {
-            console.log('Reach here');
             const iss = profile.iss as string;
             const isGoogle = iss.includes('google');
-
-            console.log('isGoogle: ', isGoogle);
 
             // we get the username from the email by separating by
             //'@' then returning the first value using 'shift()'
             if (isGoogle) {
               const username = email?.split('@').shift();
-              console.log('username: ', username);
               userByProvider.username = username!;
               token.username = username!;
             }
           }
           token.sub = userId;
-          console.log('Id added to Token: ', token);
           await createUserByProviders(userByProvider);
         } else {
           token.username = user.username;

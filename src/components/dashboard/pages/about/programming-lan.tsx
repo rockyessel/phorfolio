@@ -35,7 +35,6 @@ const ProgrammingLanguageDropdown = (props: Props) => {
 
   const handleLanguageSelect = (tool: string) => {
     if (selectedTool.includes(tool)) {
-      console.log('Already added!');
       return;
     }
     setSelectedTool((preSelectedTool) => [...preSelectedTool, tool]);

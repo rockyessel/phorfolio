@@ -12,12 +12,9 @@ export const getContent = async (): Promise<OutputData | undefined> => {
     );
     if (data.success) {
       const doesContentExist = data.response.items[0]?.editorcontentoutput;
-      // console.log('doesContentExist', doesContentExist);
       if (doesContentExist) {
         const json = decodeBase64ToObject(doesContentExist);
         const content = deserialize(json);
-        // console.log('content', content);
-        // console.log('json', json);
         if (content) {
           return content;
         }

@@ -51,9 +51,6 @@ export default Homepage;
 export async function getStaticPaths() {
   const paths = await userStaticPaths();
 
-
-  console.log('paths: ', paths);
-
   return {
     paths,
     fallback: true,

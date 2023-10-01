@@ -15,7 +15,6 @@ const AdminChat = () => {
       );
 
       const data = await response.json();
-      console.log(data);
     };
 
     fetchUser()

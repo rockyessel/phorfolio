@@ -39,7 +39,6 @@ const CreateCommentInput = (props: Props) => {
         obj.comment_id = IdGen('COMMENT');
         obj.article_id = isArticlePath;
         obj.project_id = isProjectPath;
-        console.log('Create Object: ', obj);
         await createComment(obj);
       }
       if (props.type === 'reply') {

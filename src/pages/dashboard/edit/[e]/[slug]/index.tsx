@@ -28,7 +28,6 @@ export const getStaticPaths: GetStaticPaths<{ e: string; slug: string }> = async
     ...projectSlugs?.response?.items?.map((slug) => ({ params: { e: 'projects', slug: slug.slug } }))
   ];
 
-  console.log('dashbaord paths: ', paths);
 
   return {
     paths,

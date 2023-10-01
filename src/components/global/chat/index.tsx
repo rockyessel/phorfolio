@@ -31,16 +31,13 @@ const Chat = () => {
     }
   }, [selectedConversation]);
 
-  console.log('Chat index: ', subdomain);
-
   const getConversations = async () => {
     const { data } = await axios.get<{ response: { items: any[] } }>(
       `https://minimum-aqua.cmd.outerbase.io/chat/conversation/get/admin?adminId=admin1`
     );
     return data.response.items;
   };
-  console.log('selectedConversation: ', selectedConversation);
-  console.log('conversations: ', conversations);
+  
   React.useEffect(() => {
     getConversations().then((conversations) => setConversations(conversations));
   }, []);

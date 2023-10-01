@@ -17,8 +17,6 @@ const Modal = (props: any) => {
     zIndex: 1000,
   };
 
-  console.log(props);
-
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (!props.modalRef.current.contains(e.target)) {
@@ -75,7 +73,6 @@ const Modal = (props: any) => {
 
 const CustomImageRenderer = ({ data }: { data: any }) => {
   const src = data.file.url;
-  console.log('Image Src', data);
   const [showModal, setShowModal] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -205,7 +202,6 @@ function CustomListRenderer({
 }
 
 function CustomLinkRenderer({ data }: { data: any }) {
-  console.log('CustomLinkRenderer', data);
   return (
     <Link
       className='underline'
@@ -219,7 +215,6 @@ function CustomLinkRenderer({ data }: { data: any }) {
 }
 
 function CustomHeaderRenderer({ data }: { data: any }) {
-  console.log('headers', data);
   switch (data.level) {
     case 1:
       return <h1>{data.text}</h1>;

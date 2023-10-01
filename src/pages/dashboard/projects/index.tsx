@@ -62,8 +62,6 @@ const DashboardProject = () => {
 
   const handleReset = () => setProjectMetaData(initProjectValue);
 
-  console.log('projectMetaData: ', projectMetaData);
-
   const handleSubmission = async (type: string) => {
     const audio = await generateTextToAudioURL(plainText);
     if (audio !== '' && projectContent && projectMetaData) {
@@ -86,11 +84,9 @@ const DashboardProject = () => {
     switch (type) {
       case 'draft':
         if (isContentAdded) createProject(projectMetaData);
-        console.log('projectMetaData', projectMetaData);
         break;
       case 'publish':
         projectMetaData.is_published = true;
-        console.log('projectMetaData', projectMetaData);
         if (isContentAdded) createProject(projectMetaData);
         break;
       default:

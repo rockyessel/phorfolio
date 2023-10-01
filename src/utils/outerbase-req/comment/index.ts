@@ -51,9 +51,6 @@ export const getFormatCommentsAndReplies = async (id: string, type: string) => {
   const replies: Reply[] = await getReplies();
   const comments: Comment[] = await getComments();
 
-  console.log('replies: ', replies);
-  console.log('comments: ', comments);
-
   interface Comment {
     comment_id: string;
     reply_id: string | '';

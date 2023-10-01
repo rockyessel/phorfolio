@@ -29,7 +29,6 @@ const AuthScreen = () => {
         .then((user) => setUser(user))
         .catch((error) => {
           toast.error(error.message);
-          console.log(error);
         })
         .finally(() => {
           setLoading(false);

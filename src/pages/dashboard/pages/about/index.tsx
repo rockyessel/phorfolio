@@ -39,8 +39,6 @@ const DashboardAboutPage = () => {
   const user = { ...session?.user } as User;
   const router = useRouter();
 
-  console.log('aboutMeContent: ', aboutMeContent);
-
   React.useEffect(() => {
     if (user.id) {
       isAboutMeAlreadyCreated(user.id).then((bool) =>
@@ -69,7 +67,6 @@ const DashboardAboutPage = () => {
         ...preAboutMe,
         [target.name]: target.checked,
       }));
-      console.log('checkbox');
     } else {
       setAboutMeForm((preAboutMe) => ({
         ...preAboutMe,

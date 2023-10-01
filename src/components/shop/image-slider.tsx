@@ -19,7 +19,6 @@ const ImageSliderCard = (props: Props) => {
   }, [currentSlider, repeat]);
 
   const handleMoveDot = (index: number) => {
-    console.log('Clicked on index: ', index);
     setCurrentSlider(index);
   };
 

@@ -22,7 +22,6 @@ export default async function middleware(req: NextRequest) {
       ? hostname!.replace(`.phorfolio.site`, '')
       : hostname!.replace(`.test.com:3000`, '');
 
-  console.log('subdomain: ', subdomain);
 
   if (subdomain) {
     // validate subdomain here
@@ -30,9 +29,7 @@ export default async function middleware(req: NextRequest) {
     if (foundUser?.username) {
       // Check if the URL path starts with '/a/' and remove subdomain if so
       if (url.pathname.startsWith('/a/')) {
-        console.log('Im here');
         url.pathname = url.pathname.replace(/^\/a\//, '/');
-        console.log('URL: ', url);
         return NextResponse.rewrite(url);
       } else {
         // Build the subdomain path

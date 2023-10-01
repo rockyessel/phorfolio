@@ -13,7 +13,6 @@ import useSubdomain from '@/hooks/subdomain';
 
 export default function App({ Component, pageProps: { session, ...pageProps }}: AppProps) {
   const subdomain = useSubdomain(0)
-  console.log('_app: ', subdomain);
   const router = useRouter();
   const isDashboardRoute = router.pathname.includes('dashboard');
   return (

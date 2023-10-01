@@ -16,8 +16,6 @@ interface Props {
 const ArticleDetailedPage = (props: Props) => {
   const [hasIncremented, setHasIncremented] = React.useState<boolean>(false);
 
-  console.log(props);
-
   // Update the comment count after a comment is made.
   React.useEffect(() => {
     updateCommentOnLoad(props.article.id)

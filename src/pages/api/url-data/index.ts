@@ -5,8 +5,7 @@ import { load } from 'cheerio';
 const URLData = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const url = new URL(req.query.url as string);
-
-    console.log('URL', url)
+    
     const response = await axios.get(url.toString());
     const html = response.data;
     const $ = load(html);
