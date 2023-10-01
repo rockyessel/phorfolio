@@ -1,25 +1,35 @@
 import React from 'react';
 import { ProjectItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import DashboardDisplay from '../articles/create';
-import ProjectMetadata from '../projects/metadata';
+import DashboardDisplay from '../../../articles/create';
+import ProjectMetadata from '../../../projects/metadata';
 import serializeJavascript from 'serialize-javascript';
 import { initProjectValue } from '@/utils/constants/projects';
-import { getProjectBySlug, updateProject } from '@/utils/outerbase-req/projects';
-import { decodeBase64ToObject, deserialize, encodeObjectToBase64, getTextFromEditorContent } from '@/utils/helpers';
+import {
+  getProjectBySlug,
+  updateProject,
+} from '@/utils/outerbase-req/projects';
+import {
+  decodeBase64ToObject,
+  deserialize,
+  encodeObjectToBase64,
+  getTextFromEditorContent,
+} from '@/utils/helpers';
 
 interface Props {
   e: string;
   slug: string;
 }
 
-const EditProjectPage = (props: Props) => {
+const ~ = (props: Props) => {
   const [editContent, setEditContent] = React.useState<OutputData>();
-  const [showMetaDataDrawer, setShowMetaDataDrawer] = React.useState<boolean>(false);
+  const [showMetaDataDrawer, setShowMetaDataDrawer] =
+    React.useState<boolean>(false);
   const [projectContent, setProjectContent] = React.useState<OutputData>();
   const [totalCharacters, setTotalCharacters] = React.useState<number>(0);
   const [totalWords, setTotalWords] = React.useState<number>(0);
-  const [projectMetaData, setProjectMetaData] = React.useState<ProjectItem>(initProjectValue);
+  const [projectMetaData, setProjectMetaData] =
+    React.useState<ProjectItem>(initProjectValue);
 
   const handleReset = () => setProjectMetaData(initProjectValue);
 
@@ -59,7 +69,11 @@ const EditProjectPage = (props: Props) => {
     });
   }, [props.slug, table]);
 
-  const handleMetadataChange = (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMetadataChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const formUpdates = {
       ...projectMetaData,
       [event.target.name]: event.target.value,

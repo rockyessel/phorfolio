@@ -1,12 +1,20 @@
 import React from 'react';
 import { ArticleItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import DashboardDisplay from '../articles/create';
+import DashboardDisplay from '../../../articles/create';
 import serializeJavascript from 'serialize-javascript';
 import { initArticleValue } from '@/utils/constants/articles';
 import MetaDataDrawer from '@/components/dashboard/articles/metadata-drawer';
-import { getArticleBySlug, updateArticle } from '@/utils/outerbase-req/articles';
-import { decodeBase64ToObject, deserialize, encodeObjectToBase64, getTextFromEditorContent } from '@/utils/helpers';
+import {
+  getArticleBySlug,
+  updateArticle,
+} from '@/utils/outerbase-req/articles';
+import {
+  decodeBase64ToObject,
+  deserialize,
+  encodeObjectToBase64,
+  getTextFromEditorContent,
+} from '@/utils/helpers';
 
 interface Props {
   e: string;
@@ -15,11 +23,13 @@ interface Props {
 
 const EditArticlePage = (props: Props) => {
   const [editContent, setEditContent] = React.useState<OutputData>();
-  const [showMetaDataDrawer, setShowMetaDataDrawer] = React.useState<boolean>(false);
+  const [showMetaDataDrawer, setShowMetaDataDrawer] =
+    React.useState<boolean>(false);
   const [articleContent, setArticleContent] = React.useState<OutputData>();
   const [totalCharacters, setTotalCharacters] = React.useState<number>(0);
   const [totalWords, setTotalWords] = React.useState<number>(0);
-  const [articleMetaData, setArticleMetaData] = React.useState<ArticleItem>(initArticleValue);
+  const [articleMetaData, setArticleMetaData] =
+    React.useState<ArticleItem>(initArticleValue);
 
   const handleReset = () => setArticleMetaData(initArticleValue);
 
@@ -59,7 +69,11 @@ const EditArticlePage = (props: Props) => {
     });
   }, [props.slug, table]);
 
-  const handleMetadataChange = (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMetadataChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const formUpdates = {
       ...articleMetaData,
       [event.target.name]: event.target.value,

@@ -1,43 +1,59 @@
-import React from 'react'
+import React from 'react';
 import { CommonPath } from '@/interface';
-import EditArticlePage from '../../../../../components/dashboard/edit/article';
-import EditProjectPage from '../../../../../components/dashboard/edit/project';
+import EditArticlePage from '../../../../../components/dashboard/edit/[e]/[slug]/article';
+import EditProjectPage from '../../../../../components/dashboard/edit/[e]/[slug]/project';
 import { getAllProjectSlugs } from '@/utils/outerbase-req/projects';
 import { getAllArticlesSlugs } from '@/utils/outerbase-req/articles';
-import { GetStaticPaths, GetStaticProps, InferGetServerSidePropsType } from 'next';
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetServerSidePropsType,
+} from 'next';
 
-const EditContentPage = (props: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const EditContentPage = (
+  props: InferGetServerSidePropsType<typeof getStaticProps>
+) => {
   switch (props.e) {
-    
     case 'projects':
-      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-        <EditProjectPage slug={props.slug} e={props.e} />;
-      </main>)
+      return (
+        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+          <EditProjectPage slug={props.slug} e={props.e} />;
+        </main>
+      );
 
-    
     case 'articles':
-      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-        <EditArticlePage slug={props.slug} e={props.e} />
-      </main>)
-    
-      default:
-      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-      <EditProjectPage slug={props.slug} e={props.e} />;
-      </main>)
+      return (
+        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+          <EditArticlePage slug={props.slug} e={props.e} />
+        </main>
+      );
+
+    default:
+      return (
+        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+          <EditProjectPage slug={props.slug} e={props.e} />;
+        </main>
+      );
   }
 };
 
 export default EditContentPage;
 
-export const getStaticPaths: GetStaticPaths<{ e: string; slug: string }> = async () => {
+export const getStaticPaths: GetStaticPaths<{
+  e: string;
+  slug: string;
+}> = async () => {
   const articleSlugs: CommonPath = await getAllArticlesSlugs();
   const projectSlugs: CommonPath = await getAllProjectSlugs();
 
   const paths = [
-    ...articleSlugs?.response?.items?.map((slug) => ({ params: { e: 'articles', slug: slug.slug } })),
-    ...projectSlugs?.response?.items?.map((slug) => ({ params: { e: 'projects', slug: slug.slug } }))
+    ...articleSlugs?.response?.items?.map((slug) => ({
+      params: { e: 'articles', slug: slug.slug },
+    })),
+    ...projectSlugs?.response?.items?.map((slug) => ({
+      params: { e: 'projects', slug: slug.slug },
+    })),
   ];
-
 
   return {
     paths,
@@ -45,14 +61,20 @@ export const getStaticPaths: GetStaticPaths<{ e: string; slug: string }> = async
   };
 };
 
-export const getStaticProps: GetStaticProps<{ e: string; slug: string }> = async (context) => {
+export const getStaticProps: GetStaticProps<{
+  e: string;
+  slug: string;
+}> = async (context) => {
   // @ts-ignore
-  const { e, slug }: { e: string; slug: string } = context.params || { e: '', slug: '' };
+  const { e, slug }: { e: string; slug: string } = context.params || {
+    e: '',
+    slug: '',
+  };
   if (e === 'articles' || e === 'projects') {
     return {
       props: {
         e,
-        slug,  
+        slug,
       },
     };
   }
@@ -60,4 +82,4 @@ export const getStaticProps: GetStaticProps<{ e: string; slug: string }> = async
   return {
     notFound: true,
   };
-  }
+};
