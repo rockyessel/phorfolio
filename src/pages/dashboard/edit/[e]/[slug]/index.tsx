@@ -1,7 +1,5 @@
 import React from 'react';
 import { CommonPath } from '@/interface';
-import EditArticlePage from '../../../../../components/dashboard/edit/[e]/[slug]/article';
-import EditProjectPage from '../../../../../components/dashboard/edit/[e]/[slug]/project';
 import { getAllProjectSlugs } from '@/utils/outerbase-req/projects';
 import { getAllArticlesSlugs } from '@/utils/outerbase-req/articles';
 import {
@@ -10,6 +8,8 @@ import {
   InferGetServerSidePropsType,
 } from 'next';
 import { useRouter } from 'next/router';
+import EditArticlePage from '@/components/pages/dashboard/edit/[e]/[slug]/articles';
+import EditProjectPage from '@/components/pages/dashboard/edit/[e]/[slug]/projects';
 
 const EditContentPage = (
   props: InferGetServerSidePropsType<typeof getStaticProps>
