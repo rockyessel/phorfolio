@@ -15,13 +15,9 @@ import {
 } from '@/utils/helpers';
 import DashboardDisplay from '@/components/dashboard/articles/create';
 import ProjectMetadata from '@/components/dashboard/projects/metadata';
+import { useRouter } from 'next/router';
 
-interface Props {
-  e: string;
-  slug: string;
-}
-
-const EditProjectPage = (props: Props) => {
+const EditProjectPage = () => {
   const [editContent, setEditContent] = React.useState<OutputData>();
   const [showMetaDataDrawer, setShowMetaDataDrawer] =
     React.useState<boolean>(false);
@@ -55,19 +51,25 @@ const EditProjectPage = (props: Props) => {
         break;
     }
   };
-  const table = `public.${props.e}`;
+
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const table = `public.projects`;
   React.useEffect(() => {
-    getProjectBySlug(`${props.slug}`).then((content) => {
-      if (content) {
-        const editContentData = content as any;
-        setProjectMetaData(content);
-        const encodedContent = editContentData.content;
-        const decodedContent = decodeBase64ToObject(encodedContent);
-        const deserializeContent: OutputData = deserialize(decodedContent);
-        setEditContent(deserializeContent);
-      }
-    });
-  }, [props.slug, table]);
+    if (slug) {
+      getProjectBySlug(`${slug}`).then((content) => {
+        if (content) {
+          const editContentData = content as any;
+          setProjectMetaData(content);
+          const encodedContent = editContentData.content;
+          const decodedContent = decodeBase64ToObject(encodedContent);
+          const deserializeContent: OutputData = deserialize(decodedContent);
+          setEditContent(deserializeContent);
+        }
+      });
+    }
+  }, [slug, table]);
 
   const handleMetadataChange = (
     event:
@@ -85,7 +87,7 @@ const EditProjectPage = (props: Props) => {
     const plainText = getTextFromEditorContent(projectContent);
     setTotalCharacters(plainText.length);
     setTotalWords(plainText.split(' ').length);
-  }, [projectContent, props.slug, table]);
+  }, [projectContent, slug, table]);
 
   React.useEffect(() => {});
   return (

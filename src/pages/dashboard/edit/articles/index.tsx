@@ -15,13 +15,9 @@ import {
   getTextFromEditorContent,
 } from '@/utils/helpers';
 import DashboardDisplay from '@/components/dashboard/articles/create';
+import { useRouter } from 'next/router';
 
-interface Props {
-  e: string;
-  slug: string;
-}
-
-const EditArticlePage = (props: Props) => {
+const EditArticlePage = () => {
   const [editContent, setEditContent] = React.useState<OutputData>();
   const [showMetaDataDrawer, setShowMetaDataDrawer] =
     React.useState<boolean>(false);
@@ -55,19 +51,25 @@ const EditArticlePage = (props: Props) => {
         break;
     }
   };
-  const table = `public.${props.e}`;
+
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const table = `public.articles`;
   React.useEffect(() => {
-    getArticleBySlug(`${props.slug}`).then((content) => {
-      if (content) {
-        const editContentData = content as any;
-        setArticleMetaData(content);
-        const encodedContent = editContentData.content;
-        const decodedContent = decodeBase64ToObject(encodedContent);
-        const deserializeContent: OutputData = deserialize(decodedContent);
-        setEditContent(deserializeContent);
-      }
-    });
-  }, [props.slug, table]);
+    if (slug) {
+      getArticleBySlug(slug as string).then((content) => {
+        if (content) {
+          const editContentData = content as any;
+          setArticleMetaData(content);
+          const encodedContent = editContentData.content;
+          const decodedContent = decodeBase64ToObject(encodedContent);
+          const deserializeContent: OutputData = deserialize(decodedContent);
+          setEditContent(deserializeContent);
+        }
+      });
+    }
+  }, [slug, table]);
 
   const handleMetadataChange = (
     event:
@@ -85,7 +87,7 @@ const EditArticlePage = (props: Props) => {
     const plainText = getTextFromEditorContent(articleContent);
     setTotalCharacters(plainText.length);
     setTotalWords(plainText.split(' ').length);
-  }, [articleContent, props.slug, table]);
+  }, [articleContent, slug, table]);
 
   React.useEffect(() => {});
   return (

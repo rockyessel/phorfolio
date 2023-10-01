@@ -72,7 +72,7 @@ const Table = (props: Props) => {
                 <AudioBox source={data.audio_url} />
               </td>
               <td className='px-1 py-1 text-left whitespace-nowrap'>
-                <Link href={`/dashboard/edit/articles/${data.slug}`}>
+                <Link href={`/dashboard/edit/articles?slug=${data.slug}`}>
                   <span
                     title='Edit'
                     className='inline-flex items-center justify-center p-4 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
