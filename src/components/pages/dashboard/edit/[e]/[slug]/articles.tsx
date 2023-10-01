@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArticleItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import DashboardDisplay from '../../../articles/create';
 import serializeJavascript from 'serialize-javascript';
 import { initArticleValue } from '@/utils/constants/articles';
 import MetaDataDrawer from '@/components/dashboard/articles/metadata-drawer';
@@ -15,6 +14,7 @@ import {
   encodeObjectToBase64,
   getTextFromEditorContent,
 } from '@/utils/helpers';
+import DashboardDisplay from '@/components/dashboard/articles/create';
 
 interface Props {
   e: string;

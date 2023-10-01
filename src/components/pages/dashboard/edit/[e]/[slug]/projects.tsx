@@ -1,8 +1,6 @@
 import React from 'react';
 import { ProjectItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import DashboardDisplay from '../../../articles/create';
-import ProjectMetadata from '../../../projects/metadata';
 import serializeJavascript from 'serialize-javascript';
 import { initProjectValue } from '@/utils/constants/projects';
 import {
@@ -15,6 +13,8 @@ import {
   encodeObjectToBase64,
   getTextFromEditorContent,
 } from '@/utils/helpers';
+import DashboardDisplay from '@/components/dashboard/articles/create';
+import ProjectMetadata from '@/components/dashboard/projects/metadata';
 
 interface Props {
   e: string;
