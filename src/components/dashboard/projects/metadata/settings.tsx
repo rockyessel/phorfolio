@@ -8,11 +8,7 @@ interface Props {
   setShowMetaDataDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   setStateValue: React.Dispatch<React.SetStateAction<ProjectItem>>;
   stateValue: ProjectItem;
-  handleMetadataChange: (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
+  handleMetadataChange: (event:| React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const MainProjectSettings = (props: Props) => {

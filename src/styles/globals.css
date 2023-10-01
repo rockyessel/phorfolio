@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .typography {
+    @apply prose-2xl prose-headings:text-rose-800 prose-p:text-white prose-gray;
+  }
+}
+#disqus_thread {
+  font-family: "Moldyen" !important;
+}
+
+@font-face {
+  font-family: "Noe Display";
+  src: url("https://filestourl.vercel.app/fonts/Noe_Display.ttf");
+}
+@font-face {
+  font-family: "Pink Yellow Black";
+  src: url("https://filestourl.vercel.app/fonts/Pink_Yellow_Black.ttf");
+}
+@font-face {
+  font-family: "Astroz Trial";
+  src: url("https://filestourl.vercel.app/fonts/Astroz_Trial.ttf");
+}
+@font-face {
+  font-family: "Moldyen";
+  src: url("https://filestourl.vercel.app/fonts/Moldyen.ttf");
+}
+.rainbow-box {
+  border: 0.1px solid transparent;
+  -o-border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+     border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
+  margin: 20px auto;
+}
+
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", "Noe Display", "Pink Yellow Black";
+}
+
+table {
+  border: 1px solid #ff5277;
+}
+
+th,
+td {
+  border: 1px solid #ff5277;
+  padding: 2px 0;
+  text-align: center;
+}
+
+.overwrite-sticky {
+  overflow-y: auto !important;
+  padding-bottom: 40px;
+}
+
+.prose :where(.prose > :first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+  margin-top: 0;
+  color: white;
+}
+
+.ce-inline-toolbar--left-oriented.ce-inline-toolbar--showed {
+  transform: translate(-23px);
+  color: black;
+}
+
+.li {
+  text-decoration: none;
+  position: relative;
+  color: inherit;
+}
+
+.li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+  background: #ff5277;
+}
+
+.re_li {
+  text-decoration: none;
+  position: relative;
+  color: inherit;
+}
+
+.re_li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+  background: #000000;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 250ms ease-in;
+}
+
+.re_li:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #881338;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.ce-paragraph a {
+  color: rgb(135, 207, 255);
+}
+
+.ce-toolbar__plus {
+  color: white;
+}
+
+.ce-toolbar__plus:hover {
+  background-color: #881338;
+}
+
+.cdx-search-field__input {
+  color: black;
+}
+
+.link-tool > a > .link-tool__description {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.codex-editor__redactor {
+  padding-bottom: 50px !important;
+}
+
+.overflow {
+  overflow-y: visible !important;
+}
+
+.overflow-x-important {
+  overflow-x: auto !important;
+}
+
+.force-overflow-hidden {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  overflow-inline: hidden !important;
+  overflow-block: hidden !important;
+}
+
+.drawer {
+  width: 100% !important;
+  z-index: 100 !important;
+}
+
+.container {
+  text-align: center;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 75px;
+  display: inline-block;
+  text-align: left;
+  top: 8px;
+}
+
+.checkbox {
+  display: none;
+}
+
+.label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0 solid #bbb;
+  border-radius: 20px;
+}
+
+.inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+
+.inner:before,
+.inner:after {
+  float: left;
+  width: 50%;
+  height: 36px;
+  padding: 0;
+  line-height: 36px;
+  color: #fff;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.inner:before {
+  content: "YES";
+  padding-left: 10px;
+  background-color: #060;
+  color: #fff;
+}
+
+.inner:after {
+  content: "NO";
+  padding-right: 10px;
+  background-color: #bbb;
+  color: #fff;
+  text-align: right;
+}
+
+.switch {
+  display: block;
+  width: 24px;
+  margin: 5px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  border: 0 solid #bbb;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+
+.checkbox:checked + .label .inner {
+  margin-left: 0;
+}
+
+.checkbox:checked + .label .switch {
+  right: 0px;
+}
+
+.truncate {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}/*# sourceMappingURL=globals.css.map */

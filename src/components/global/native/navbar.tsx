@@ -1,8 +1,8 @@
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
-import { BsGithub, BsLinkedin, BsTwitter } from 'react-icons/bs';
+import { FaTimes } from 'react-icons/fa';
 import { menuLink } from '@/utils/constants/native/navbar';
+import { BsGithub, BsLinkedin, BsTwitter } from 'react-icons/bs';
 
 const Navbar = (): JSX.Element => {
   const [showMenu, setShowMenu] = React.useState<boolean>(false);
@@ -85,33 +85,6 @@ const Navbar = (): JSX.Element => {
                   </Link>
                 ))}
               </ul>
-
-              <div className='w-full flex justify-center text-4xl gap-2 pb-10'>
-                <a
-                  rel='noopener'
-                  className='hover:scale-125 hover:text-rose-500 origin-center hover:origin-top transition-all duration-500'
-                  target={`_blank`}
-                  href='https://github.com/rockyessel'
-                >
-                  <BsGithub />{' '}
-                </a>{' '}
-                <a
-                  rel='noopener'
-                  className='hover:scale-125 hover:text-rose-500 origin-center hover:origin-top transition-all duration-500'
-                  target={`_blank`}
-                  href='https://twitter.com/rockyessel'
-                >
-                  <BsTwitter />{' '}
-                </a>{' '}
-                <a
-                  rel='noopener'
-                  className='hover:scale-125 hover:text-rose-500 origin-center hover:origin-top transition-all duration-500'
-                  target={`_blank`}
-                  href='https://www.linkedin.com/in/rockyessel/'
-                >
-                  <BsLinkedin />{' '}
-                </a>
-              </div>
             </div>
           </div>
         )}

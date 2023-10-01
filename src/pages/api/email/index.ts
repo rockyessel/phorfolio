@@ -1,43 +1,34 @@
-import { transporter, mailOptions } from '@/utils/config/nodemailer';
+import { transporterAndMailOption } from '@/utils/config/nodemailer';
+import { contactTemp } from '@/utils/email-temp';
+import { getAboutMeByUserId } from '@/utils/outerbase-req/about';
+import { findUserByUsername, getUsersEnvByUserId} from '@/utils/outerbase-req/users';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function SendEmail(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function SendEmail(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { email, name, message } = req.body;
+    const { email, name, message, subdomain } = req.body;
+
+    const user = await findUserByUsername(subdomain);
+    const aboutMeData = await getAboutMeByUserId(user.id);
+    const { next_public_email, next_public_email_pass } =
+      await getUsersEnvByUserId(user.id);
+
+    const { mailOptions, transporter } = transporterAndMailOption(
+      next_public_email,
+      next_public_email_pass,
+      'gmail'
+    );
+
+    const baseURL =
+      process.env.NODE_ENV === 'production'
+        ? `${subdomain}.phorfolio.site`
+        : `${subdomain}.localhost:3000`;
+
     try {
       await transporter.sendMail({
         ...mailOptions,
-        subject: '@Portfolio Web App: Someone reached out!! ',
-        text: 'This is test message',
-        html: `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <script src="https://cdn.tailwindcss.com"></script>
-          <title>Email</title>
-        </head>
-        <body>
-          <main class="flex w-[30rem] flex-col gap-5 rounded-md shadow-md px-4 py-2">
-            <span class="text-2xl font-bold">rockyessel.com</span>
-
-            <div class="flex flex-col gap-5">
-              <p>Hi, from: <span class="font-medium">${name}</span>,</p>
-
-              <p>
-                ${message}
-              </p>
-
-              <p>Email: <span class="font-medium">${email}</span></p>
-            </div>
-          </main>
-        </body>
-      </html>`,
+        subject: `@${subdomain}. Someone reached out!`,
+        html: contactTemp(message, user, { name, email }, aboutMeData, baseURL),
       });
 
       return res.status(200).json({ msg: 'Sent Successfully' });

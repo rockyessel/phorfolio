@@ -1,58 +1,54 @@
 import React from 'react';
-// import { useSession } from 'next-auth/react';
-
-import AdminChat from './admin';
-import UserChat from './user';
 import axios from 'axios';
-
-export const dummyChatHistory = [
-  {
-    userId: 1,
-    timestamp: '2023-09-18 10:15 AM',
-    message: 'Hello, how can I help you?',
-  },
-  {
-    userId: 2,
-    timestamp: '2023-09-18 10:20 AM',
-    message: 'I have a question about your products.',
-  },
-  {
-    userId: 1,
-    timestamp: '2023-09-18 10:22 AM',
-    message: 'Sure, feel free to ask your question.',
-  },
-  {
-    userId: 2,
-    timestamp: '2023-09-18 10:25 AM',
-    message: 'Do you offer free shipping?',
-  },
-  {
-    userId: 1,
-    timestamp: '2023-09-18 10:28 AM',
-    message: 'Yes, we offer free shipping on orders over $50.',
-  },
-  {
-    userId: 2,
-    timestamp: '2023-09-18 10:30 AM',
-    message: 'Great, thanks for the information!',
-  },
-];
+import UserChat from './user';
+import AdminChat from './admin';
+import { User } from '@/interface';
+import useSubdomain from '@/hooks/subdomain';
+import { useSession } from 'next-auth/react';
 
 const Chat = () => {
-  // const [minimize, setMinimize] = React.useState('450');
-  // const [editableContent, setEditableContent] = React.useState('');
-  // const [chatHistory, setChatHistory] = React.useState<any[]>(dummyChatHistory);
+  const [conversations, setConversations] = React.useState<any[]>();
+  const [messages, setMessages] = React.useState<any[]>();
+  const [selectedConversation, setSelectedConversation] = React.useState<string>('');
+  const [loading, setLoading] = React.useState(true);
+  const { data: session } = useSession();
+  const subdomain = useSubdomain(0);
+  const user = { ...session?.user } as User;
 
-  // const { status } = useSession();
-  // console.log('status', status);
+  const getRoomMessage = async (conversationId: string) => {
+    const { data } = await axios.get<{ response: { items: any[] } }>(
+      `https://minimum-aqua.cmd.outerbase.io/chat/message/get/conversationId?conversationId=${conversationId}`
+    );
+    return data.response.items;
+  };
 
-  // const handleContentChange = () => {};
-  // const handleSendMessage = async () => {};
+  React.useEffect(() => {
+    if (selectedConversation) {
+      getRoomMessage(selectedConversation).then((messages) => {
+        setMessages(messages);
+        setLoading(false);
+      });
+    }
+  }, [selectedConversation]);
+
+  console.log('Chat index: ', subdomain);
+
+  const getConversations = async () => {
+    const { data } = await axios.get<{ response: { items: any[] } }>(
+      `https://minimum-aqua.cmd.outerbase.io/chat/conversation/get/admin?adminId=admin1`
+    );
+    return data.response.items;
+  };
+  console.log('selectedConversation: ', selectedConversation);
+  console.log('conversations: ', conversations);
+  React.useEffect(() => {
+    getConversations().then((conversations) => setConversations(conversations));
+  }, []);
 
   return (
-    <div className='fixed bottom-0 right-0 flex items-end h-0 text-black'>
-      <AdminChat />
-    </div>
+    <section className='fixed bottom-0 right-0 flex items-end h-0 text-black'>
+      {user.username === subdomain ? <AdminChat /> : <UserChat />}
+    </section>
   );
 };
 

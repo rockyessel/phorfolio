@@ -1,6 +1,6 @@
-import { User } from '@/interface';
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
+import { User } from '@/interface';
 
 interface Props {
   user: User

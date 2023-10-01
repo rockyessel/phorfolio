@@ -219,6 +219,7 @@ function CustomLinkRenderer({ data }: { data: any }) {
 }
 
 function CustomHeaderRenderer({ data }: { data: any }) {
+  console.log('headers', data);
   switch (data.level) {
     case 1:
       return <h1>{data.text}</h1>;
@@ -249,7 +250,7 @@ const renderers = {
 const EditorOutput = ({ content }: Props) => {
   return (
     <article className='typography'>
-    {content &&  <Output renderers={renderers} data={content} />}
+      {content && <Output renderers={renderers} data={content} />}
     </article>
   );
 };

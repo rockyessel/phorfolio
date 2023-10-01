@@ -19,9 +19,7 @@ const ResumePageTemp = (
 };
 
 export default ResumePageTemp;
-export const getStaticProps: GetStaticProps<{
-  resumeData: OutputData | undefined;
-}> = async () => {
+export const getStaticProps: GetStaticProps<{resumeData: OutputData | undefined}> = async () => {
   const resumeData = await getContent();
   // if (!resumeData) return { notFound: true };
   return {

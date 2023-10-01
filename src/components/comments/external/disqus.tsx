@@ -1,14 +1,19 @@
-import Script from 'next/script';
 import React from 'react';
-
-
+import Script from 'next/script';
 
 const DisqusCommentsEngine = () => {
+  const [showComment, setShowComment] = React.useState(false);
 
   return (
-    <div id='disqus_thread'>
-      <Script id='my-script'>
-        {`
+    <section
+      className={`${
+        !showComment && 'w-full inline-flex items-center justify-center p-4'
+      }`}
+    >
+      {showComment ? (
+        <div id='disqus_thread'>
+          <Script id='my-script'>
+            {`
     var disqus_config = function () {
     this.page.url = document.location.href;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = document.location.href.split(".app")[1]; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
@@ -20,14 +25,23 @@ const DisqusCommentsEngine = () => {
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
     })();`}
-      </Script>
-      <noscript>
-        Please enable JavaScript to view the{' '}
-        <a href='https://disqus.com/?ref_noscript'>
-          comments powered by Disqus.
-        </a>
-      </noscript>
-    </div>
+          </Script>
+          <noscript>
+            Please enable JavaScript to view the{' '}
+            <a href='https://disqus.com/?ref_noscript'>
+              comments powered by Disqus.
+            </a>
+          </noscript>
+        </div>
+      ) : (
+        <button
+          onClick={() => setShowComment((preState) => !preState)}
+          title='Load comments'
+        >
+          Show Comments
+        </button>
+      )}
+    </section>
   );
 };
 

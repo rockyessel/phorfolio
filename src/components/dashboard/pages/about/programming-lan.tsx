@@ -1,50 +1,66 @@
+import Image from 'next/image';
+import { AboutMe } from '@/interface';
 import React, { useState } from 'react';
 import deviconjson from '../../../../../devicon.json';
-import Image from 'next/image';
 
 interface Props {
   initialStateValues: { name: string; value: string }[];
+  setAboutMeForm: React.Dispatch<React.SetStateAction<AboutMe>>;
+  toolType: string;
 }
 
 const ProgrammingLanguageDropdown = (props: Props) => {
-  console.log(props);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedTool, setSelectedTool] = useState<string[]>([]);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    switch (props.toolType) {
+      case props.toolType:
+        props.setAboutMeForm((preAboutMe) => ({
+          ...preAboutMe,
+          [props.toolType]: selectedTool.join(','),
+        }));
+        break;
+
+      default:
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTool]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLanguageSelect = (language: string) => {
-    if (selectedLanguages.includes(language)) {
+  const handleLanguageSelect = (tool: string) => {
+    if (selectedTool.includes(tool)) {
       console.log('Already added!');
       return;
     }
-    setSelectedLanguages((prevSelectedLanguages) => [
-      ...prevSelectedLanguages,
-      language,
-    ]);
+    setSelectedTool((preSelectedTool) => [...preSelectedTool, tool]);
     setIsOpen(false);
   };
 
-  const getLanguageLogoUrl = (language: string) => {
-    const lan = language.toLowerCase().trim();
-    const c = deviconjson.filter((icon) => icon.name === lan).pop()
-      ?.versions.svg;
-    if (c?.includes('plain')) {
-      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${lan}/${lan}-plain.svg`;
-    } else if (c?.includes('original')) {
-      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${lan}/${lan}-original.svg`;
-    } else if (!c?.includes('plain') && !c?.includes('original'))
+  const getToolLogoUrl = (tool: string) => {
+    const toolName = tool.toLowerCase().trim();
+    const filteredTool = deviconjson
+      .filter((toolLogo) => toolLogo.name === toolName)
+      .pop()?.versions.svg;
+    if (filteredTool?.includes('plain')) {
+      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-plain.svg`;
+    } else if (filteredTool?.includes('original')) {
+      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-original.svg`;
+    } else if (
+      !filteredTool?.includes('plain') &&
+      !filteredTool?.includes('original')
+    )
       return '/favicon-16x16.png';
   };
 
-  const removeLanguage = (language: string) => {
-    setSelectedLanguages((prevSelectedLanguages) =>
-      prevSelectedLanguages.filter(
-        (selectedLanguage) => selectedLanguage !== language
-      )
+  const removeTool = (tool: string) => {
+    setSelectedTool((preSelectedTool) =>
+      preSelectedTool.filter((selectedTool) => selectedTool !== tool)
     );
   };
 
@@ -66,13 +82,13 @@ const ProgrammingLanguageDropdown = (props: Props) => {
         <button
           onClick={toggleDropdown}
           type='button'
-          className='inline-flex justify-center w-[48] rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500'
+          className='inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500'
           id='options-menu'
           aria-haspopup='true'
           aria-expanded='true'
         >
-          {selectedLanguages.length === props.initialStateValues.length
-            ? 'All language Selected`'
+          {selectedTool.length === props.initialStateValues.length
+            ? 'All tool Selected`'
             : 'Select Language(s)'}
           <svg
             className='-mr-1 ml-2 h-5 w-5'
@@ -93,7 +109,7 @@ const ProgrammingLanguageDropdown = (props: Props) => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className='origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 ring-black ring-opacity-5 h-56 overflow-y-auto bg-[#131b24] z-[1000]'
+          className='origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 h-56 overflow-y-auto bg-[#131b24] z-[1000]'
         >
           <div
             className='py-1'
@@ -101,49 +117,47 @@ const ProgrammingLanguageDropdown = (props: Props) => {
             aria-orientation='vertical'
             aria-labelledby='options-menu'
           >
-            {props.initialStateValues?.map((language) => (
+            {props.initialStateValues?.map((tool) => (
               <button
-                key={language.value}
-                onClick={() => handleLanguageSelect(language.value)}
+                key={tool.value}
+                onClick={() => handleLanguageSelect(tool.value)}
                 className='px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left flex items-center'
                 role='menuitem'
               >
                 <Image
                   width={100}
                   height={100}
-                  src={`${getLanguageLogoUrl(language.value)}`}
-                  alt={`${language.name} Logo`}
+                  src={`${getToolLogoUrl(tool.value)}`}
+                  alt={`${tool.name} Logo`}
                   className='mr-2 w-6 h-6'
                 />
-                {language.name}
+                {tool.name}
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {selectedLanguages.length > 0 && (
+      {selectedTool.length > 0 && (
         <div className='mt-2'>
-          <p className='text-sm font-medium text-gray-700'>
-            Selected Language(s):
-          </p>
+          <p className='text-sm font-medium text-gray-700'>Selected Tool(s):</p>
           <div className='mt-1 flex items-center gap-2 flex-wrap w-full'>
-            {selectedLanguages.map((language) => (
+            {selectedTool.map((tool) => (
               <button
                 type='button'
-                title={language}
-                key={language}
-                onDoubleClick={() => removeLanguage(language)}
+                title={tool}
+                key={tool}
+                onDoubleClick={() => removeTool(tool)}
                 className='inline-flex items-center gap-1 border-[1px] capitalize w-fit p-1 rounded-lg border-rose-700 border-opacity-50 hover:ring-2 hover:ring-rose-500'
               >
                 <Image
                   width={100}
                   height={100}
-                  src={`${getLanguageLogoUrl(language)}`}
-                  alt={`${language} Logo`}
+                  src={`${getToolLogoUrl(tool)}`}
+                  alt={`${tool} Logo`}
                   className='mr-2 w-6 h-6'
                 />
-                {language}
+                {tool}
               </button>
             ))}
           </div>
@@ -154,12 +168,3 @@ const ProgrammingLanguageDropdown = (props: Props) => {
 };
 
 export default ProgrammingLanguageDropdown;
-
-{
-  /* <button
-                  onClick={() => removeLanguage(language)}
-                  className='text-red-600 hover:text-red-800'
-                >
-                  Remove
-                </button> */
-}

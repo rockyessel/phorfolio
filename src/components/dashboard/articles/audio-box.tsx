@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { CiCircleMore } from 'react-icons/ci';
+import React from 'react';
 import { BsFillPlayFill, BsPauseFill, BsMicFill } from 'react-icons/bs';
 
 interface Props {
@@ -19,10 +18,10 @@ const formatTime = (currentTime: number, duration: number): string => {
 };
 
 const AudioBox = (props: Props) => {
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentTime, setCurrentTime] = React.useState(0);
+  const [duration, setDuration] = React.useState(0);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
   const handleTimeUpdate = () => {
     setCurrentTime(audioRef.current?.currentTime || 0);
@@ -39,24 +38,24 @@ const AudioBox = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-      audioRef.current.addEventListener('loadedmetadata', () => {
+  React.useEffect(() => {
+    if (audioRef!.current) {
+      audioRef!.current.addEventListener('timeupdate', handleTimeUpdate);
+      audioRef!.current.addEventListener('loadedmetadata', () => {
         setDuration(audioRef.current!.duration);
       });
     }
     return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
-        audioRef.current.removeEventListener('loadedmetadata', () => {});
+      if (audioRef!.current) {
+        audioRef!.current.removeEventListener('timeupdate', handleTimeUpdate);
+        audioRef!.current.removeEventListener('loadedmetadata', () => {});
       }
     };
   }, []);
 
   return (
     <span className='p-2 font-medium whitespace-nowrap inline-flex items-center gap-1 rounded-md border-[1px] border-rose-800'>
-      <button onClick={handlePlayPause}>
+      <button type='button' title={isPlaying ? "Pause":"Play"} onClick={handlePlayPause}>
         {isPlaying ? (
           <BsPauseFill className='text-2xl bg-red-700 text-white p-1 rounded-md border-[1px] ' />
         ) : (

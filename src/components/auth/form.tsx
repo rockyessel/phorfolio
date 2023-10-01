@@ -1,10 +1,11 @@
+import { User } from '@/interface';
 import React from 'react';
 
 interface Props {
   type: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: React.SyntheticEvent) => void;
-  authForm: { email: string; password: string };
+  authForm: User;
 }
 
 const AuthForm = (props: Props) => {
@@ -14,6 +15,20 @@ const AuthForm = (props: Props) => {
       className='mt-6'
       title={props.type === 'register' ? 'Registration Form' : 'Login Form'}
     >
+      {props.type === 'register' && (
+        <fieldset>
+          <label className='block'>Full name</label>
+          <input
+            value={props.authForm.name}
+            type='text'
+            name='name'
+            onChange={props.handleChange}
+            placeholder='Enter name eg. Rocky Essel'
+            className='appearance-none block w-full py-3 pr-5 bg-transparent border border-rose-200 rounded-lg placeholder-gray-400/70 pl-4 rtl:pr-4 rtl:pl-5 focus:border-rose-400 focus:ring-rose-300 focus:outline-none focus:ring focus:ring-opacity-40'
+            required
+          />
+        </fieldset>
+      )}
       <fieldset>
         <label className='block'>Email Address</label>
         <input
@@ -26,7 +41,6 @@ const AuthForm = (props: Props) => {
           required
         />
       </fieldset>
-
       <fieldset className='mt-4'>
         <label className='block'>Password</label>
         <input

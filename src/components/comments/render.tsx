@@ -4,9 +4,9 @@ import MainComment from './internal/comment';
 import DisqusCommentsEngine from './external/disqus';
 
 interface Props {
+  id: string;
   systemType: string;
   commentHistory: CommentProps[];
-  id: string;
 }
 
 const CommentSystemRender = (props: Props) => {

@@ -1,12 +1,14 @@
-import { EditorContentOutputProps } from "@/interface";
-import { decodeBase64ToObject, deserialize } from "@/utils/helpers";
-import { OutputData } from "@editorjs/editorjs";
-import axios from "axios";
+import { EditorContentOutputProps } from '@/interface';
+import { decodeBase64ToObject, deserialize } from '@/utils/helpers';
+import { OutputData } from '@editorjs/editorjs';
+import axios from 'axios';
+
+const baseURL = process.env.NEXT_PUBLIC_OUTERBASE_URL!;
 
 export const getContent = async (): Promise<OutputData | undefined> => {
   try {
     const { data } = await axios.get<EditorContentOutputProps>(
-      `https://minimum-aqua.cmd.outerbase.io/content`
+      `${baseURL}/content`
     );
     if (data.success) {
       const doesContentExist = data.response.items[0]?.editorcontentoutput;

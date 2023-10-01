@@ -1,19 +1,30 @@
 import React from 'react';
 import '@/styles/globals.scss';
+import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
+import 'react-toastify/dist/ReactToastify.css';
 import NextNProgress from 'nextjs-progressbar';
+import { ToastContainer } from 'react-toastify';
 import { SessionProvider } from 'next-auth/react';
-import Navbar from '@/components/dashboard/layout/navbar';
 import Footer from '@/components/global/native/footer';
+import Navbar from '@/components/global/native/navbar';
+import Chat from '@/components/global/chat';
+import useSubdomain from '@/hooks/subdomain';
 
-export default function App({Component, pageProps: { session, ...pageProps }}: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps }}: AppProps) {
+  const subdomain = useSubdomain(0)
+  console.log('_app: ', subdomain);
+  const router = useRouter();
+  const isDashboardRoute = router.pathname.includes('dashboard');
   return (
     <React.Fragment>
       <SessionProvider session={session}>
-        <Navbar />
+        {!isDashboardRoute && <Navbar />}
         <NextNProgress color={'#ff5277'} />
         <Component {...pageProps} />
-        <Footer />
+        {!isDashboardRoute && <Footer />}
+        <ToastContainer />
+        {!isDashboardRoute && typeof subdomain === 'string' &&  <Chat />}
       </SessionProvider>
     </React.Fragment>
   );

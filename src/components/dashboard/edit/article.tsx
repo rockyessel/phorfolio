@@ -1,12 +1,12 @@
-import MetaDataDrawer from '@/components/dashboard/global/metadata-drawer';
+import React from 'react';
 import { ArticleItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import React from 'react';
-import serializeJavascript from 'serialize-javascript';
 import DashboardDisplay from '../articles/create';
+import serializeJavascript from 'serialize-javascript';
 import { initArticleValue } from '@/utils/constants/articles';
-import { decodeBase64ToObject, deserialize, encodeObjectToBase64, getTextFromEditorContent } from '@/utils/helpers';
+import MetaDataDrawer from '@/components/dashboard/articles/metadata-drawer';
 import { getArticleBySlug, updateArticle } from '@/utils/outerbase-req/articles';
+import { decodeBase64ToObject, deserialize, encodeObjectToBase64, getTextFromEditorContent } from '@/utils/helpers';
 
 interface Props {
   e: string;
@@ -21,7 +21,6 @@ const EditArticlePage = (props: Props) => {
   const [totalWords, setTotalWords] = React.useState<number>(0);
   const [articleMetaData, setArticleMetaData] = React.useState<ArticleItem>(initArticleValue);
 
-
   const handleReset = () => setArticleMetaData(initArticleValue);
 
   const handleSubmission = async (type: string) => {
@@ -30,17 +29,15 @@ const EditArticlePage = (props: Props) => {
       articleMetaData.content = encodeObjectToBase64(serializedArticleContent);
     }
 
-    const isContentAdded = articleMetaData.content.length > 10; // Denoting that content is not empty.; Because no one in the right mind will write obj characters
+    const isContentAdded = articleMetaData.content.length > 10; // Denoting that content is not empty.; Because no one in their..
 
     switch (type) {
       case 'draft':
         articleMetaData.is_published = false;
         if (isContentAdded) updateArticle(articleMetaData, articleMetaData.id);
-        console.log('handleSubmission articleMetaData', handleSubmission);
         break;
       case 'publish':
         articleMetaData.is_published = true;
-        console.log('handleSubmission articleMetaData', articleMetaData);
         if (isContentAdded) updateArticle(articleMetaData, articleMetaData.id);
         break;
 
@@ -48,12 +45,10 @@ const EditArticlePage = (props: Props) => {
         break;
     }
   };
-  console.log('editContent', editContent);
   const table = `public.${props.e}`;
   React.useEffect(() => {
-    getArticleBySlug( `${props.slug}`).then((content) => {
+    getArticleBySlug(`${props.slug}`).then((content) => {
       if (content) {
-        console.log('content content', content);
         const editContentData = content as any;
         setArticleMetaData(content);
         const encodedContent = editContentData.content;
@@ -64,11 +59,7 @@ const EditArticlePage = (props: Props) => {
     });
   }, [props.slug, table]);
 
-  const handleMetadataChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleMetadataChange = (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const formUpdates = {
       ...articleMetaData,
       [event.target.name]: event.target.value,

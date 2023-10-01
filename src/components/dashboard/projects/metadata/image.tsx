@@ -1,6 +1,6 @@
+import React from 'react';
 import { ProjectItem } from '@/interface';
 import { getMultipleFileURL } from '@/utils/req';
-import React from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 interface Props {
@@ -10,13 +10,12 @@ interface Props {
 
 const MultipleImageUpload = (props: Props) => {
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-
   const handleCancelUpload = () => setSelectedFiles([]);
 
   const handleFileUploads = async () => {
     if (selectedFiles) {
       const imgURL = await getMultipleFileURL(selectedFiles);
-      const combinedString = imgURL.join(', ');
+      const combinedString = (imgURL && imgURL.join(', ')) || '';
       if (imgURL) {
         props.setStateValue({
           ...props.stateValue,
@@ -28,7 +27,7 @@ const MultipleImageUpload = (props: Props) => {
   };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const files: File[] = Array.from(event.target.files); // Convert FileList to an array
+      const files: File[] = Array.from(event.target.files);
       setSelectedFiles(files);
     }
   };

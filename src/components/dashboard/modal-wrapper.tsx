@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { TfiClose } from 'react-icons/tfi';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { useRouter } from 'next/router';
@@ -11,10 +11,11 @@ interface Props {
 
 const ModalWrapper = (props: Props) => {
   const router = useRouter();
-  const [isWrapperModalOpened, setIsWrapperModalOpened] = useState(false);
+  const [isWrapperModalOpened, setIsWrapperModalOpened] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Check if the path includes "edit"
+    // we automatically open the modal.
     if (router.asPath.includes('/edit')) {
       setIsWrapperModalOpened(true);
     }
@@ -58,7 +59,7 @@ const ModalWrapper = (props: Props) => {
               type='button'
               title='Close Modal'
               onClick={closeWrapperModal}
-              className='fixed m-5 top-0 right-0 inline-flex items-center justify-center p-4 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
+              className='fixed m-5 z-[100] top-0 right-0 inline-flex items-center justify-center p-4 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
             >
               <TfiClose />
             </button>

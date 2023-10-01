@@ -1,13 +1,9 @@
-import { ProjectItem } from '@/interface';
 import React from 'react';
+import { ProjectItem } from '@/interface';
 
 interface Props {
   stateValue: ProjectItem;
-  handleMetadataChange: (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
+  handleMetadataChange: (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const OptionalSectionButton = (props: Props) => {

@@ -1,9 +1,8 @@
 import React from 'react';
-import { MdOutlineModeEditOutline } from 'react-icons/md';
-import { ArticleItem } from '@/interface';
-import AudioBox from './audio-box';
-import ModalWrapper from '../modal-wrapper';
 import Link from 'next/link';
+import AudioBox from './audio-box';
+import { ArticleItem } from '@/interface';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
 
 interface Props {
   data?: ArticleItem[];

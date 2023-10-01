@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProjectItem } from '@/interface';
-import MainProjectSettings from './settings';
 import SEOSettings from './seo';
+import { ProjectItem } from '@/interface';
 import ProjectMetadataForm from './project';
+import MainProjectSettings from './settings';
 import OptionalSectionButton from './optional';
 
 interface Props {
@@ -10,11 +10,7 @@ interface Props {
   setShowMetaDataDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   setStateValue: React.Dispatch<React.SetStateAction<ProjectItem>>;
   stateValue: ProjectItem;
-  handleMetadataChange: (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
+  handleMetadataChange: (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleReset: () => void;
 }
 

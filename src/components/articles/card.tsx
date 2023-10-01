@@ -1,12 +1,11 @@
-import { ArticleItem } from '@/interface';
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { AiOutlineComment, AiOutlineEye } from 'react-icons/ai';
+import Image from 'next/image';
+import { ArticleItem } from '@/interface';
+import { AbbrevNumber } from '@/utils/helpers';
 import { MdOutlineReadMore } from 'react-icons/md';
 import { toolSkills } from '@/utils/constants/global';
-import { AbbrevNumber } from '@/utils/helpers';
-
+import { AiOutlineComment, AiOutlineEye } from 'react-icons/ai';
 
 interface Props {
   data: ArticleItem;
@@ -15,18 +14,14 @@ interface Props {
 const ArticleCard = (props: Props) => {
   const tags = props.data?.tags?.split(',').map((tag) => tag.trim());
   const viewCount = AbbrevNumber(props.data.seen_count);
-  console.log('viewCount', props.data.seen_count);
 
   const MAX_TITLE: number = 70;
   const MAX_DESCRIPTION: number = 157;
-  const sliceDes: string = `${props.data?.description?.slice(
-    0,
-    MAX_DESCRIPTION
-  )}...`;
+  const sliceDes: string = `${props.data?.description?.slice(0, MAX_DESCRIPTION)}...`;
   const sliceTitle: string = `${props.data?.title?.slice(0, MAX_TITLE)}...`;
   const isTitleLonger: boolean = props.data?.title?.length > MAX_TITLE;
-  const isDesLonger: boolean =
-    props.data?.description?.length > MAX_DESCRIPTION;
+  const isDesLonger: boolean = props.data?.description?.length > MAX_DESCRIPTION;
+
   return (
     <li className='group bg-[#18202b] md:bg-transparent w-full h-auto relative cursor-pointer rounded-md items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-[#18202b]/30'>
       <div className='hidden md:block md:h-[15rem] w-full'>
@@ -46,20 +41,17 @@ const ArticleCard = (props: Props) => {
           <div className='font-medium rounded-md after:content-["・"] after:pl-2 after:text-xs after:mb-5'>
             <span>{props.data?.reading_minutes} Minutes Read</span>
           </div>
-
           <div className={`flex gap-2 items-center font-medium`}>
             <span className={`inline-flex items-center rounded-md gap-1`}>
               <AiOutlineComment className={`text-lg`} />
               {props.data?.comments_count}
             </span>
-
             <span className={`inline-flex items-center rounded-md gap-1`}>
               <AiOutlineEye className={`text-lg`} />
               {viewCount}
             </span>
           </div>
         </div>
-
         <div className='flex flex-col gap-0'>
           <div className='m-0 p-0'>
             <h1 className='font-noe text-lg font-bold'>
@@ -69,7 +61,6 @@ const ArticleCard = (props: Props) => {
               {isDesLonger ? sliceDes : props.data?.description}
             </p>
           </div>
-
           <div className='flex justify-between items-center text-[2.6rem]'>
             <ul className='rounded-md py-2 flex flex-wrap gap-1 items-center'>
               {toolSkills?.map((list, index) =>
@@ -88,7 +79,6 @@ const ArticleCard = (props: Props) => {
                 ) : null
               )}
             </ul>
-
             <div className='group flex items-center gap-5'>
               <Link href={`/articles/${props.data?.slug}`}>
                 <span title='Read more'>

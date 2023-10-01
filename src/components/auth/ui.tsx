@@ -2,20 +2,30 @@ import React from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import AuthForm from './form';
-// import {
-//   createUserWithCredentials,
-//   validateUser,
-// } from '@/utils/outerbase-req/users';
 import AuthButtons from './buttons';
+import { toast } from 'react-toastify';
+import { createUserByCredentials } from '@/utils/outerbase-req/users';
+import { User } from '@/interface';
+import { IdGen } from '@/utils/helpers';
+import axios, { AxiosError } from 'axios';
 
 interface Props {
   type: string;
 }
 
+const initialAuthForm: User = {
+  id: '',
+  username: '',
+  name: '',
+  email: '',
+  password: '',
+  image: '',
+};
+
 const AuthUI = (props: Props) => {
   const [showCredentialsForm, setShowCredentialsForm] = React.useState(false);
 
-  const [authForm, setAuthForm] = React.useState({ email: '', password: '' });
+  const [authForm, setAuthForm] = React.useState(initialAuthForm);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = event;
     setAuthForm((authFormValues) => ({
@@ -24,30 +34,69 @@ const AuthUI = (props: Props) => {
     }));
   };
 
-  const handleSubmission = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
-    if (props.type === 'register') {
-      // const createUser = await createUserWithCredentials(authForm);
-    } else if (props.type === 'login') {
-      // const isUserCredValid = await validateUser(authForm);
-    }
-
-    await signIn('credentials', {
-      ...authForm,
-      redirect: true,
-      callbackUrl: '/',
+  const handleSignIn = async (user: User) => {
+    const result = await signIn('credentials', {
+      ...user,
+      redirect: false,
+      // callbackUrl: '/dashboard',
     });
+
+    // if (result?.error) {
+    //   toast.error(result.error);
+    // } else if (result?.ok) {
+    //   toast.success('Login successful');
+    // }
   };
 
+  const handleSubmission = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    try {
+      if (props.type === 'register') {
+        const l = toast.loading('Creating account...');
+        const response = await axios.post('/api/register', { ...authForm });
+        const data = response.data as {
+          error?: string;
+          success: boolean;
+          data?: User;
+        };
+        if (data.success && data.data) {
+          toast.done(l);
+          toast.success('Account created');
+          await handleSignIn(data.data);
+        }
+      } else if (props.type === 'login') {
+        const l = toast.loading('Logging you in account...');
+        await handleSignIn(authForm);
+        toast.done(l);
+      }
+    } catch (error) {
+      toast.dismiss();
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        const err =
+          axiosError.response &&
+          axiosError.response.data &&
+          axiosError.response.data;
+        if (err && typeof err === 'object' && 'error' in err) {
+          // Ensure 'err' is an object with an 'error' property
+          const errorMessage = err.error;
+          toast.error(`Account not created. Error: ${errorMessage}`);
+        } else {
+          toast.error('Account not created. Something went wrong');
+        }
+      } else {
+        toast.error('Account not created. Something went wrong');
+      }
+    }
+  };
   return (
     <main>
       <section className='flex flex-col  items-center'>
         <div className='w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 px-6 lg:px-16 xl:px-12 flex items-center justify-center'>
           <div className='w-full h-100'>
             <h1 className='text-xl text-white md:text-2xl font-bold leading-tight mt-12'>
-              {props.type === 'register '
-                ? 'Registration form'
+              {props.type === 'register'
+                ? 'Register & Starting Documenting'
                 : 'Have an account? Login'}
             </h1>
 

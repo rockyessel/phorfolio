@@ -12,7 +12,7 @@ const AuthenticationPage = (
   const router = useRouter();
 
   React.useEffect(() => {
-    if (status === 'authenticated') router.push('/');
+    if (status === 'authenticated') router.push('/dashboard');
   }, [router, status]);
 
   return <AuthUI type={props.auth} />;

@@ -1,16 +1,12 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { GoLink } from 'react-icons/go';
 
 const ProjectFeatureCard = () => {
   return (
     <section className='flex items-center gap-1 p-1 ring-2 ring-rose-700 ring-opacity-50 hover:ring-4 hover:ring-rose-500 w-fit rounded-lg'>
-      <a
-        target='_blank'
-        href=''
-        className='border-[1px] w-fit p-1 rounded-lg border-rose-700 border-opacity-50 hover:ring-2 hover:ring-rose-500 flex gap-2'
-      >
+      <div className='border-[1px] w-fit p-1 rounded-lg border-rose-700 border-opacity-50 hover:ring-2 hover:ring-rose-500 flex gap-2'>
         <Image
           width={1000}
           height={1000}
@@ -33,7 +29,7 @@ const ProjectFeatureCard = () => {
         >
           <GoLink />
         </Link>
-      </a>
+      </div>
     </section>
   );
 };

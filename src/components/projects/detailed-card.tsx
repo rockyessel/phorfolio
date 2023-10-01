@@ -1,124 +1,57 @@
-import { ProjectItem } from '@/interface';
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { FiExternalLink } from 'react-icons/fi';
-import { OutputData } from '@editorjs/editorjs';
+import ProjectHeader from './header';
+import { ProjectItem } from '@/interface';
 import EditorOutput from '../EditorOutput';
-import { PiCertificate } from 'react-icons/pi';
-import { GrDeploy } from 'react-icons/gr';
-import { SiVercel, SiWebmoney } from 'react-icons/si';
-import { TbPlaneDeparture } from 'react-icons/tb';
-import { BsGithub } from 'react-icons/bs';
-import { AiFillLike } from 'react-icons/ai';
-import { FaEye } from 'react-icons/fa';
-import AudioCastPlayer from './audio';
+import { AiOutlineClose } from 'react-icons/ai';
+import { OutputData } from '@editorjs/editorjs';
+import OtherProjectDetails from './other-details';
 import { decodeBase64ToObject, deserialize } from '@/utils/helpers';
-import { toolSkills } from '@/utils/constants/global';
+
 interface Props {
   data: ProjectItem;
 }
 
 const ProjectDetailsCard = (props: Props) => {
-console.log('props: ', props);
-
-
-
+  const [isSticky, setIsSticky] = React.useState(false);
+  const [showCredentialButton, setShowCredentialButton] = React.useState(false);
   const [image, setImage] = React.useState<number>(0);
-  const tools = props.data?.tags
-    ?.split(',')
-    ?.map((tool) => tool.trim().toLocaleLowerCase());
   const images = props.data?.images?.split(',')?.map((image) => image.trim());
   const decodedContent = decodeBase64ToObject(props.data?.content);
   const deserializeContent: OutputData = deserialize(decodedContent);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 1000;
+      if (window.scrollY > threshold) {
+        setIsSticky(true);
+        setShowCredentialButton(true);
+      } else {
+        setIsSticky(false);
+        setShowCredentialButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <React.Fragment>
-      <header className='flex flex-col gap-2'>
-        <div className='w-full flex items-center justify-between gap-2 flex-wrap mb-2'>
-          <div className='flex items-center gap-2 flex-wrap mb-2'>
-            <a
-              target={`_blank`}
-              href={props.data?.live_demo_url}
-              className='p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '
-            >
-              <span className='flex items-center gap-2 m-0'>
-                <SiWebmoney className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-                {/* <span className='text-[12px] text-gray-200'>See Live</span> */}
-              </span>
-            </a>
-            <a
-              target={`_blank`}
-              href={props.data?.github_repo}
-              className='p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '
-            >
-              <span className='flex items-center gap-2 m-0'>
-                <BsGithub className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-                {/* <span className='text-[12px] text-gray-200'>Github</span> */}
-              </span>
-            </a>
-          </div>
-
-          <div className='flex items-center gap-2 flex-wrap mb-2'>
-            <div className='w-fit p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '>
-              <span className='flex items-center gap-2 m-0'>
-                <PiCertificate className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-              </span>
-            </div>
-            <div className='w-fit p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '>
-              <span className='flex items-center gap-2 m-0'>
-                <TbPlaneDeparture className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-              </span>
-            </div>
-            <div className='w-fit p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '>
-              <span className='flex items-center gap-2 m-0'>
-                <SiVercel className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-              </span>
-            </div>
-          </div>
-        </div>
-        <h1 className='font-extrabold max_screen:text-4xl text-5xl capitalize'>
-          {props.data?.title}
-        </h1>
-
-        <div className='w-full flex items-center justify-between gap-2 flex-wrap mb-2'>
-          <div>
-            <ul className='rounded-md py-2 flex flex-wrap gap-2 items-center'>
-              {toolSkills?.map((list, index) =>
-                tools?.includes(list.name.toLocaleLowerCase()) ? (
-                  <Link
-                    key={index}
-                    href={`/project/${list.name.toLocaleLowerCase()}`}
-                  >
-                    <li
-                      className='tooltip cursor-pointer inline-flex items-center gap-1 border border-rose-500 text-white p-1 font-medium'
-                      data-tip={list?.name}
-                    >
-                      {list?.icon} {list?.name}
-                    </li>
-                  </Link>
-                ) : null
-              )}
-            </ul>
-          </div>
-
-          <div className='flex items-center gap-2 flex-wrap mb-2'>
-            <div className='w-fit p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '>
-              <span className='flex items-center gap-2 m-0'>
-                <AiFillLike className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-                <span className='text-[12px] text-gray-200'>12.32K</span>
-              </span>
-            </div>
-            <div className='w-fit p-1 rounded-lg group ring-[1px] ring-rose-700 ring-opacity-50 hover:ring-2 hover:ring-rose-600 '>
-              <span className='flex items-center gap-2 m-0'>
-                <FaEye className='p-1 rounded-lg border-[1px] border-rose-700 text-4xl group-hover:border-white group-hover:text-rose-700' />
-                <span className='text-[12px] text-gray-200'>123.2K</span>
-              </span>
-            </div>
-            {'•'} <AudioCastPlayer audio_url={props.data.audio_url} />
-          </div>
-        </div>
-      </header>
+      <ProjectHeader data={props.data} />
       <main>
         <div>
           <Image
@@ -144,12 +77,54 @@ console.log('props: ', props);
             />
           ))}
         </div>
-
-        <div>
-          <EditorOutput content={deserializeContent} />
-        </div>
+        {showCredentialButton && (
+          <button
+            title=''
+            onClick={openModal}
+            className={`inline-flex m-5 text-lg items-center justify-center w-1/2 px-5 py-2 capitalize bg-rose-700 border rounded-md sm:w-auto gap-x-2  active:ring-2 active:ring-rose-700 relative scale-[1] active:scale-[0.9] duration-150 transition-all ${
+              isSticky ? '!sticky h-16 top-12' : ''
+            }`}
+          >
+            <span className='mt-6'>Credentials</span>
+          </button>
+        )}
+        <EditorOutput content={deserializeContent} />
       </main>
-      <footer></footer>
+      <>
+        {isModalOpen && (
+          <div className='fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none'>
+            <div className='relative w-auto max-w-lg mx-auto my-6'>
+              {/* Modal content */}
+              <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#131b24] outline-none focus:outline-none'>
+                {/* Header */}
+                <div className='flex items-start justify-between p-5 gap-20 border-b border-solid border-blueGray-200 rounded-t'>
+                  <h3 className='text-3xl font-semibold'>Other Credential</h3>
+
+                  <button
+                    title='Close'
+                    className='p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
+                    onClick={closeModal}
+                  >
+                    <span className='bg-transparent h-6 w-6 text-2xl block outline-none focus:outline-none'>
+                      <AiOutlineClose />
+                    </span>
+                  </button>
+                </div>
+                {/* Body */}
+                <div className='flex flex-col gap-5 relative p-6 flex-auto'>
+                  <OtherProjectDetails />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div
+          className={`fixed inset-0 z-40 bg-black opacity-50 transition-opacity ${
+            isModalOpen ? 'visible' : 'invisible'
+          }`}
+          onClick={closeModal}
+        ></div>
+      </>
     </React.Fragment>
   );
 };

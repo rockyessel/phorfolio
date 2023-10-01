@@ -1,12 +1,12 @@
 import React from 'react'
-import { GetStaticProps, InferGetServerSidePropsType } from 'next';
 import { ArticleResponse } from '@/interface';
 import ArticleCard from '@/components/articles/card';
-import { getAllArticles } from '@/utils/outerbase-req/articles';
 
-interface Props {}
+interface Props {
+  articles: ArticleResponse
+}
 
-const ArticlesPageTemp = (props: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const ArticlesPageTemp = (props: Props) => {
   return (
     <main className='w-full h-full flex flex-col gap-10 px-4 lg:px-14 xl:px-20 2xl:px-40 py-2 pb-5 mt-5 md:mt-28'>
       <div>
@@ -32,7 +32,3 @@ const ArticlesPageTemp = (props: InferGetServerSidePropsType<typeof getStaticPro
 
 export default ArticlesPageTemp
 
-export const getStaticProps: GetStaticProps<{ articles: ArticleResponse | undefined }> = async () => {
-  const articles: ArticleResponse = await getAllArticles();
-  return { props: JSON.parse(JSON.stringify({ articles })), revalidate: 1 };
-};

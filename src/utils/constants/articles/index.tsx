@@ -1,6 +1,7 @@
 export const initArticleValue = {
   id: '',
   image: '',
+  user_id:'',
   title: '',
   content: '',
   slug: '',
@@ -12,7 +13,6 @@ export const initArticleValue = {
   published_datetime: '',
   also_published_on: '',
   is_comment_disabled: false,
-  user_id: '',
   portfolio_id: '',
   seen_count: 0,
   comments_count: 0,

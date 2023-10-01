@@ -1,6 +1,6 @@
+import React from 'react';
 import { getImageURL } from '@/utils/req';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
-import React from 'react';
 
 interface Props {
   set: React.Dispatch<React.SetStateAction<OutputData | undefined>>;
@@ -8,9 +8,8 @@ interface Props {
   oldContent: OutputData | undefined;
 }
 
-const TextEditor = ({ value, set, oldContent }: Props) => {
+const TextEditor = (props: Props) => {
   const editorRef = React.useRef<EditorJS>();
-
   const [isMounted, setIsMounted] = React.useState<boolean>(false);
 
   // Saving content to our parent component.
@@ -18,14 +17,14 @@ const TextEditor = ({ value, set, oldContent }: Props) => {
     if (editorRef.current) {
       try {
         const content = await editorRef.current.save();
-        if (JSON.stringify(content) !== JSON.stringify(value)) {
-          set(content);
+        if (JSON.stringify(content) !== JSON.stringify(props.value)) {
+          props.set(content);
         }
       } catch (error) {
         console.error('Error saving editor content:', error);
       }
     }
-  }, [set, value]);
+  }, [props]);
 
   const initializeEditor = React.useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default;
@@ -74,7 +73,7 @@ const TextEditor = ({ value, set, oldContent }: Props) => {
                   return {
                     success: 1,
                     file: {
-                      url: imageURL[0],
+                      url: imageURL && imageURL[0],
                     },
                   };
                 },
@@ -90,7 +89,7 @@ const TextEditor = ({ value, set, oldContent }: Props) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [oldContent?.blocks]);
+  }, [props.oldContent?.blocks]);
 
   React.useEffect(() => {
     const showEditor = async () => await initializeEditor();
@@ -118,6 +117,7 @@ const TextEditor = ({ value, set, oldContent }: Props) => {
     // Check if there are at least two elements
     if (redactorElements && redactorElements.length >= 2) {
       // Remove the first element (index 0)
+      // Reason because, in case the user refresh twice in a row, it creates additional editor.
       redactorElements?.[0]?.parentNode?.removeChild(redactorElements[0])!;
     }
   }, []); 

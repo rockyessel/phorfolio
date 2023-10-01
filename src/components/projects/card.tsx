@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-import { AiFillFolderOpen } from 'react-icons/ai';
+import Image from 'next/image';
 import { BsGithub } from 'react-icons/bs';
-import { SiWebmoney } from 'react-icons/si';
 import { ProjectItem } from '@/interface';
+import { SiWebmoney } from 'react-icons/si';
+import { AiFillFolderOpen } from 'react-icons/ai';
 import { toolSkills } from '@/utils/constants/global';
 
 interface Props {
@@ -15,14 +15,10 @@ const ProjectCard = (props: Props) => {
   const tools = props.data?.tags?.split(',').map((tool) => tool.trim());
   const MAX_TITLE: number = 70;
   const MAX_DESCRIPTION: number = 200;
-  const sliceDes: string = `${props.data?.description?.slice(
-    0,
-    MAX_DESCRIPTION
-  )}...`;
+  const sliceDes: string = `${props.data?.description?.slice(0, MAX_DESCRIPTION)}...`;
   const sliceTitle: string = `${props.data?.title?.slice(0, MAX_TITLE)}...`;
   const isTitleLonger: boolean = props.data?.title?.length > MAX_TITLE;
-  const isDesLonger: boolean =
-    props.data?.description?.length > MAX_DESCRIPTION;
+  const isDesLonger: boolean = props.data?.description?.length > MAX_DESCRIPTION;
   const images = props.data?.images?.split(',');
 
   return (
@@ -37,13 +33,11 @@ const ProjectCard = (props: Props) => {
         />
       </header>
       <div className='md:absolute hidden md:block inset-0 group-hover:backdrop-blur-[2px] bg-gradient-to-b from-transparent via-[#18202b]/90 to-[#18202b] group-hover:from-[#18202b]/[1] group-hover:via-[#18202b]/80 group-hover:to-[#18202b]/[1]'></div>
-
       <main className='md:absolute w-full h-auto md:inset-0 flex md:translate-y-[50%] flex-col items-start p-4 transition-all duration-500 md:group-hover:translate-y-0'>
         <div>
           <p className='font-noe text-lg md:text-3xl font-bold'>
             {isTitleLonger ? sliceTitle : props.data?.title}
           </p>
-
           <ul className='flex flex-wrap items-center gap-2'>
             {toolSkills?.map((list, index) =>
               tools?.includes(list.name) ? (
@@ -62,11 +56,9 @@ const ProjectCard = (props: Props) => {
             )}
           </ul>
         </div>
-
         <p className='mb-3 md:opacity-0 transition-opacity duration-300 md:group-hover:opacity-100'>
           {isDesLonger ? sliceDes : props.data?.description}
         </p>
-
         <footer className='w-full flex justify-between items-center text-[2.6rem]'>
           <div className='flex items-center gap-5'>
             <a

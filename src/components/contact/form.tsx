@@ -1,12 +1,15 @@
+import { toast } from 'react-toastify';
+import React, { ChangeEvent } from 'react';
+import useSubdomain from '@/hooks/subdomain';
+import { SendContactForm } from '@/utils/req';
+import { FormValidation } from '@/utils/helpers';
 import { FormDataProps, FormErrorProps } from '@/interface';
 import { formDataInitialState } from '@/utils/constants/form';
-import { FormValidation } from '@/utils/helpers';
-import { SendContactForm } from '@/utils/req';
-import React, { ChangeEvent } from 'react';
 
 const ContactForm = () => {
   const [formData, setFormData] =
     React.useState<FormDataProps>(formDataInitialState);
+  const subdomain = useSubdomain(0);
 
   //Error State & Message
   const [nameErr, setNameErr] = React.useState<FormErrorProps>({
@@ -36,8 +39,12 @@ const ContactForm = () => {
     event.preventDefault();
     const validateObject = handleValidation();
     const { name, email, message } = validateObject;
-    if (!name || !email || !message) return;
-    SendContactForm(formData);
+    if (!name || !email || !message) {
+      if (nameErr.state) {
+        toast.error(nameErr.msg);
+      }
+    }
+    SendContactForm({ ...formData, subdomain });
     setFormData(formDataInitialState);
   };
 

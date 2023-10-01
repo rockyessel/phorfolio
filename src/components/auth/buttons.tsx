@@ -1,11 +1,25 @@
-import { signIn } from 'next-auth/react';
 import React from 'react';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { signIn } from 'next-auth/react';
 import { RiTwitterXFill } from 'react-icons/ri';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 interface Props {
   type: string;
 }
+
+const handleAuthButton = async (authType: string) => {
+  const result = await signIn(authType, {
+    redirect: true,
+    callbackUrl: '/dashboard',
+  });
+
+  if (result?.error) {
+    toast.error(result.error);
+  } else {
+    toast.success('Sign-in successful');
+  }
+};
 
 const AuthButtons = (props: Props) => {
   return (
@@ -13,7 +27,7 @@ const AuthButtons = (props: Props) => {
       <div className='flex flex-col gap-2 capitalize'>
         <button
           title={props.type === 'register' ? 'Register with X' : 'Login with X'}
-          onClick={() => signIn('twitter')}
+          onClick={() => handleAuthButton('twitter')}
           type='button'
           className='w-full block capitalize bg-white border rounded-md gap-x-2 hover:bg-transparent hover:text-white hover:border-rose-700 active:ring-2 active:ring-rose-700 text-gray-900 font-semibold px-4 py-3'
         >
@@ -25,7 +39,7 @@ const AuthButtons = (props: Props) => {
           </div>
         </button>
         <button
-          onClick={() => signIn('github')}
+          onClick={() => handleAuthButton('github')}
           title={
             props.type === 'register'
               ? 'register with Github'
@@ -50,7 +64,7 @@ const AuthButtons = (props: Props) => {
               ? 'register with Google'
               : 'Login with Google'
           }
-          onClick={() => signIn('google')}
+          onClick={() => handleAuthButton('google')}
           className='w-full block capitalize bg-white border rounded-md gap-x-2 hover:bg-transparent hover:text-white hover:border-rose-700 active:ring-2 active:ring-rose-700 text-gray-900 font-semibold px-4 py-3'
         >
           <div className='flex items-center justify-center'>

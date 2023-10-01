@@ -28,7 +28,7 @@ import { ParsedUrlQuery } from 'querystring';
 export interface DefaultMetaDataProps {
   description: string;
   title: string;
-  image:string
+  image: string;
   type: string;
   alt: string;
   keywords: string;
@@ -259,6 +259,8 @@ export interface User {
   username: string;
   email: string;
   image: string;
+  id: string;
+  password: string;
 }
 
 export interface CommentProps {
@@ -274,3 +276,63 @@ export interface CommentProps {
 }
 [];
 
+export interface AboutMe {
+  id: string;
+  user_id: string;
+  content: string;
+  hashnode_url: string;
+  hackernoon_url: string;
+  medium_url: string;
+  freecodecamp_url: string;
+  velog_url: string;
+  devto_url: string;
+  x_url: string;
+  youtube_url: string;
+  facebook_url: string;
+  instagram_url: string;
+  linkedin_url: string;
+  web_framework: string;
+  db: string;
+  version_control: string;
+  lang: string;
+  testing: string;
+  library: string;
+  github_username: string;
+  profile_url: string;
+  profile_url_id: string;
+  full_name: string;
+  email: string;
+  show_github_graph: boolean;
+}
+
+export interface HomeContent {
+  id: string;
+  title: string;
+  sub_title: string;
+  description: string;
+  footer_description: string;
+  user_id: string;
+}
+
+export interface UserAccountEnvProps {
+  id: string;
+  user_id: string;
+  next_public_email: string;
+  next_public_email_pass: string;
+}
+
+export interface MessageProps {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  text: string;
+  created_at: string;
+}
+
+export interface ConversationProps {
+  id: string;
+  admin_id: string;
+  user_id: string;
+  subdomain: string;
+  created_at: string;
+}

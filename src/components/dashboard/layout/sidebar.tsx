@@ -1,21 +1,25 @@
 import React from 'react';
 import Link from 'next/link';
-import { BiLogOut } from 'react-icons/bi';
+import { useSnapshot } from 'valtio';
+import { RiSettings2Fill } from 'react-icons/ri';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
-import { accordionSideList } from '@/utils/constants/native/sidebar';
+import { SidebarState, accordionSideList } from '@/utils/constants/native/sidebar';
 
 const Sidebar = () => {
   const [clicked, setClicked] = React.useState<number | null>(0);
+  const snap = useSnapshot(SidebarState);
 
   const toggle = (index: number) => {
     if (clicked === index) {
       return setClicked(null);
     }
-
     setClicked(index);
   };
+
+
   return (
-    <aside className='flex-shrink-0 hidden w-64 border-r overflow-y-auto md:block h-[93vh] pb-5'>
+    <aside
+      className={`flex-shrink-0 hidden border-r overflow-y-auto h-[93vh] pb-5 transition-all md:block duration-150 ease-in-out ${snap.collapsed ? 'w-0' : 'w-64'}`}>
       <nav className='flex flex-col w-full h-full justify-between'>
         <ul className='flex-1 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto'>
           {accordionSideList.map((listItem, index) => (
@@ -53,17 +57,13 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-
-        <div className='flex-shrink-0 px-2 py-4 space-y-2'>
-          <button
-            // onClick={() => signOut()}
-            type='button'
-            className='flex items-center justify-center w-full px-4 py-2 text-sm text-white bg-black rounded-md hover:bg-black/50 focus:outline-none focus:ring focus:ring-blue-700 focus:ring-offset-1 focus:ring-offset-white'
-          >
-            <BiLogOut />
-
-            <span>Sign out</span>
-          </button>
+        <div className='flex-shrink-0'>
+          <Link
+            href='/dashboard/settings'
+            className='flex m-5 items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'>
+            <RiSettings2Fill />
+            <span>Account</span>
+          </Link>
         </div>
       </nav>
     </aside>

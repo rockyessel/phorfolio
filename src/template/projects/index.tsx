@@ -1,15 +1,13 @@
 import { ProjectResponse } from '@/interface';
 import React from 'react';
-import { GetStaticProps, InferGetServerSidePropsType } from 'next';
 import ProjectCard from '@/components/projects/card';
 import Layout from '@/components/global/native/layout';
-import { getAllProjects } from '@/utils/outerbase-req/projects';
 
-interface Props {}
+interface Props {
+  projects: ProjectResponse
+}
 
-const ProjectsPageTemp = (
-  props: InferGetServerSidePropsType<typeof getStaticProps>
-) => {
+const ProjectsPageTemp = (props: Props) => {
   return (
     <Layout description={''} title={''} image={''} type={''} alt={''} keywords={''} publishedAt={''} updatedAt={''} MIME={''} author_name={''}>
       <main className='w-full h-full flex flex-col gap-10 px-4 lg:px-14 xl:px-20 2xl:px-40 py-2  pb-5 mt-5 md:mt-28'>
@@ -33,11 +31,3 @@ const ProjectsPageTemp = (
 };
 
 export default ProjectsPageTemp;
-export const getStaticProps: GetStaticProps<{ projects: ProjectResponse | undefined }> = async () => {
-  const projects: ProjectResponse = await getAllProjects();
-
-  return {
-    props: JSON.parse(JSON.stringify({ projects })),
-    revalidate: 10,
-  };
-};

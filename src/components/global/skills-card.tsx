@@ -1,5 +1,5 @@
-import { toolSkills } from '@/utils/constants/global';
 import React from 'react';
+import { toolSkills } from '@/utils/constants/global';
 
 interface Props {
   toolLists: string[];

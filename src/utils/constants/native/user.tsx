@@ -1,14 +1,20 @@
 import { BsFillCollectionFill, BsFillSuitHeartFill } from "react-icons/bs";
+import { MdOutlineSportsBasketball } from "react-icons/md";
 
 export const userCardList = {
   user: [{ name: 'My Profile', slug: '/dashboard/profile' }],
   pages: [
     {
-      name: 'rocky.phorfolio.site',
-      slug: 'https://rocky.phorfolio.site',
-      icon: <BsFillSuitHeartFill />,
+      name: `${process.env.NODE_ENV === 'production' ? 'phorfolio.site' : 'localhost:3000'}`,
+      slug: `${process.env.NODE_ENV === 'production' ? 'phorfolio.site' : 'localhost:3000'}`,
+      icon: <MdOutlineSportsBasketball />,
     },
     { name: 'Dashboard', slug: '/dashboard', icon: <BsFillCollectionFill /> },
   ],
-  singOut: [{ name: 'Sign out', slug: '' }],
+  singOut: [
+    { name: 'Sign out', slug: '' },
+    { name: 'Settings', slug: '/dashboard/settings' },
+  ],
 };
+
+

@@ -1,19 +1,12 @@
 import Link from 'next/link';
-import { WebDeveloper } from '@/interface';
-import SkillsCard from '../skills-card';
-import FollowButton from '../follow-btn';
+import { HomeContent } from '@/interface';
 
 interface Props {
-  data: WebDeveloper;
+  data: HomeContent;
 }
 
 const Hero = (props: Props) => {
-  const tools = props.data?.tools?.split(',').map((tool) => tool.trim());
-  const socialObj = {
-    github: props.data?.github,
-    linkedin: props.data?.linkedin,
-    x: props.data?.x,
-  };
+  
   return (
     <section className=' mt-5 md:mt-28'>
       <div className='flex flex-col gap-5'>
@@ -33,10 +26,10 @@ const Hero = (props: Props) => {
             Here are my tools🧰:
           </p>
 
-          <SkillsCard toolLists={tools} />
+          {/* <SkillsCard toolLists={tools} /> */}
         </div>
         <div className='flex items-center gap-3 md:gap-5md:text-3xl text-2xl'>
-          <FollowButton data={socialObj} />
+          {/* <FollowButton data={socialObj} /> */}
           <Link href='/contact'>
             <button
               title='Contact me'

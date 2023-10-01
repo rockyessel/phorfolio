@@ -1,10 +1,10 @@
+import React from 'react';
 import { ProjectItem } from '@/interface';
 import { OutputData } from '@editorjs/editorjs';
-import React from 'react';
-import serializeJavascript from 'serialize-javascript';
 import DashboardDisplay from '../articles/create';
-import { initProjectValue } from '@/utils/constants/projects';
 import ProjectMetadata from '../projects/metadata';
+import serializeJavascript from 'serialize-javascript';
+import { initProjectValue } from '@/utils/constants/projects';
 import { getProjectBySlug, updateProject } from '@/utils/outerbase-req/projects';
 import { decodeBase64ToObject, deserialize, encodeObjectToBase64, getTextFromEditorContent } from '@/utils/helpers';
 
@@ -15,13 +15,11 @@ interface Props {
 
 const EditProjectPage = (props: Props) => {
   const [editContent, setEditContent] = React.useState<OutputData>();
-  const [showMetaDataDrawer, setShowMetaDataDrawer] =
-    React.useState<boolean>(false);
+  const [showMetaDataDrawer, setShowMetaDataDrawer] = React.useState<boolean>(false);
   const [projectContent, setProjectContent] = React.useState<OutputData>();
   const [totalCharacters, setTotalCharacters] = React.useState<number>(0);
   const [totalWords, setTotalWords] = React.useState<number>(0);
-  const [projectMetaData, setProjectMetaData] =
-    React.useState<ProjectItem>(initProjectValue);
+  const [projectMetaData, setProjectMetaData] = React.useState<ProjectItem>(initProjectValue);
 
   const handleReset = () => setProjectMetaData(initProjectValue);
 
@@ -37,11 +35,9 @@ const EditProjectPage = (props: Props) => {
       case 'draft':
         projectMetaData.is_published = false;
         if (isContentAdded) updateProject(projectMetaData, projectMetaData.id);
-        console.log('handleSubmission projectMetaData', handleSubmission);
         break;
       case 'publish':
         projectMetaData.is_published = true;
-        console.log('handleSubmission projectMetaData', projectMetaData);
         if (isContentAdded) updateProject(projectMetaData, projectMetaData.id);
         break;
 
@@ -49,12 +45,10 @@ const EditProjectPage = (props: Props) => {
         break;
     }
   };
-  console.log('editContent', editContent);
   const table = `public.${props.e}`;
   React.useEffect(() => {
     getProjectBySlug(`${props.slug}`).then((content) => {
       if (content) {
-        console.log('content content', content);
         const editContentData = content as any;
         setProjectMetaData(content);
         const encodedContent = editContentData.content;
@@ -65,11 +59,7 @@ const EditProjectPage = (props: Props) => {
     });
   }, [props.slug, table]);
 
-  const handleMetadataChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleMetadataChange = (event: | React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const formUpdates = {
       ...projectMetaData,
       [event.target.name]: event.target.value,

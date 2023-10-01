@@ -11,7 +11,7 @@ interface Props {
 const MainComment = (props: Props) => {
   return (
     <div>
-      <section className='bg-white antialiased p-4'>
+      <section className='antialiased p-4'>
         <div className=''>
           <div className='flex justify-between items-center mb-6'>
             <h2 className='text-lg lg:text-2xl font-bold text-rose-900'>
@@ -24,10 +24,11 @@ const MainComment = (props: Props) => {
             parentCommentId={undefined}
             style={undefined}
           />
-
-          {props.commentHistory?.map((comment, index) => (
-            <CommentCard key={index} comment={comment} />
-          ))}
+          <section className='w-full divide-y-[1px] divide-rose-700'>
+            {props.commentHistory?.map((comment, index) => (
+              <CommentCard key={index} comment={comment} />
+            ))}
+          </section>
         </div>
       </section>
     </div>

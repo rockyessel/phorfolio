@@ -4,6 +4,11 @@ import {
   BiSolidUser,
 } from 'react-icons/bi';
 import { SiPowerpages } from 'react-icons/si';
+import { proxy } from 'valtio';
+
+export const SidebarState = proxy({
+  collapsed: true, // Indicates if the navbar is opened or closed
+});
 
 export const SidebarList = [
   { name: 'Dashboard', slug: '/dashboard', icon: <BiSolidDashboard /> },
@@ -33,7 +38,7 @@ export const accordionSideList = [
   },
   {
     name: 'Messages',
-    slug: '/dashboard/massage',
+    slug: '/dashboard/message',
     list: [],
     icon: <BiSolidUser />,
   },
@@ -52,6 +57,10 @@ export const accordionSideList = [
       {
         name: 'Resume',
         slug: '/dashboard/pages/resume',
+      },
+      {
+        name: 'Components',
+        slug: '/dashboard/pages/components',
       },
     ],
     icon: <BiSolidUser />,

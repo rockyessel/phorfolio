@@ -1,45 +1,50 @@
 import React from 'react';
-import Avatar from 'react-avatar';
-import Link from 'next/link';
-import { User } from '@/interface';
+import moment from 'moment';
+import Image from 'next/image';
+import { MessageProps, User } from '@/interface';
+import { getUserById } from '@/utils/outerbase-req/users';
 
 interface Props {
-  userId: string;
-  timestamp: string;
+  message: MessageProps;
 }
 
 const UserChatWithTimestamp = (props: Props) => {
-  const [user, setUser] = React.useState<User>();
+  const [user, setUser] = React.useState<User | undefined>();
 
-  const fetchUser = async () => {
-    // const usr = await fetchUserByField({ _id: props.userId });
-    // setUser(usr);
-  };
   React.useEffect(() => {
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchData = async () => {
+      const user = await getUserById(props.message.sender_id);
+      setUser(user);
+    };
+    fetchData();
+  }, [props.message.sender_id]);
 
   return (
     user && (
-      <span className='inline-flex items-start gap-1'>
-        <Avatar
-          name={user?.name}
-          size='40'
-          src={user?.image}
-          className='w-full h-full object-cover object-center'
-          round={true}
-        />
-        <span className='inline-flex items-centre gap-2 text-xs'>
-          <Link
-            href='/u/profile/@rockyessel'
-            className='hover:text-blue-700 hover:underline font-medium'
-          >
-            {user?.name}
-          </Link>
-          •<span className='text-black/50'>{props.timestamp}</span>
-        </span>
-      </span>
+      <div className='py-1 rounded-md'>
+        <div className='flex items-start hover:bg-gray-400 hover:text-black px-4 py-2 rounded-t-md gap-2'>
+          <Image
+            className='w-6 h-6 rounded-md'
+            width={100}
+            height={100}
+            alt={user?.name}
+            src={user?.image}
+            priority
+          />
+          <p className='text-sm inline-flex items-center gap-2'>
+            <span>{user?.name}</span>
+            {'•'}
+            <span className='text-gray-700'>
+              {moment(props.message.created_at).format('LT')}
+            </span>
+          </p>
+        </div>
+        <div className='w-full'>
+          <div className='ml-10 mt-0 hover:bg-gray-400 hover:text-black rounded-b-md px-4 relative prose-sm'>
+            <p>{props.message.text}</p>
+          </div>
+        </div>
+      </div>
     )
   );
 };

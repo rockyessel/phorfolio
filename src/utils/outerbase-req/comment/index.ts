@@ -1,20 +1,38 @@
 import { CommentProps } from '@/interface';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const baseURL = 'https://minimum-aqua.cmd.outerbase.io';
+const baseURL = process.env.NEXT_PUBLIC_OUTERBASE_URL!;
 
 export const createComment = async (comment: any) => {
+  const l = toast.loading('Adding comment...');
   const { data } = await axios.post(`${baseURL}/comments/create`, {
     ...comment,
   });
-  if (data.success) return data.success;
+  if (data.success) {
+    toast.done(l);
+    toast.success('Comment added successfully');
+  } else if (!data.success && data.error) {
+    toast.error('Something went wrong commenting');
+  } else {
+    toast.error('Unknown error occurred');
+  }
 };
 
 export const createReply = async (reply: any) => {
+  const l = toast.loading('Adding reply...');
   const { data } = await axios.post(`${baseURL}/comments/replies`, {
     ...reply,
   });
-  if (data.success) return data.success;
+
+  if (data.success) {
+    toast.done(l);
+    toast.success('Reply added successfully');
+  } else if (!data.success && data.error) {
+    toast.error('Something went wrong replying to the comments.');
+  } else {
+    toast.error('Unknown error occurred');
+  }
 };
 
 export const getReplies = async () => {
