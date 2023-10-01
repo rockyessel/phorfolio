@@ -9,32 +9,52 @@ import {
   GetStaticProps,
   InferGetServerSidePropsType,
 } from 'next';
+import { useRouter } from 'next/router';
 
 const EditContentPage = (
   props: InferGetServerSidePropsType<typeof getStaticProps>
 ) => {
-  switch (props.e) {
-    case 'projects':
-      return (
-        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-          <EditProjectPage slug={props.slug} e={props.e} />;
-        </main>
-      );
+  const router = useRouter();
 
-    case 'articles':
-      return (
-        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-          <EditArticlePage slug={props.slug} e={props.e} />
-        </main>
-      );
-
-    default:
-      return (
-        <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-          <EditProjectPage slug={props.slug} e={props.e} />;
-        </main>
-      );
+  if (router.isFallback) {
+    return <p>Loading..</p>;
   }
+
+  if (props.e === 'projects') {
+    return (
+      <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+        <EditProjectPage slug={props.slug} e={props.e} />
+      </main>
+    );
+  } else if (props.e === 'articles') {
+    return (
+      <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+        <EditArticlePage slug={props.slug} e={props.e} />
+      </main>
+    );
+  }
+  // switch (props.e) {
+  //   case 'projects':
+  //     return (
+  //       <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+  //         <EditProjectPage slug={props.slug} e={props.e} />;
+  //       </main>
+  //     );
+
+  //   case 'articles':
+  //     return (
+  //       <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+  //         <EditArticlePage slug={props.slug} e={props.e} />
+  //       </main>
+  //     );
+
+  //   default:
+  //     return (
+  //       <main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+  //         <EditProjectPage slug={props.slug} e={props.e} />;
+  //       </main>
+  //     );
+  // }
 };
 
 export default EditContentPage;
@@ -61,24 +81,23 @@ export const getStaticPaths: GetStaticPaths<{
   };
 };
 
-export const getStaticProps: GetStaticProps<{
-  e: string;
-  slug: string;
-}> = async (context) => {
-  // @ts-ignore
-  const { e, slug }: { e: string; slug: string } = context.params || {
-    e: '',
-    slug: '',
-  };
-  if (e === 'articles' || e === 'projects') {
-    return {
-      props: {
-        e,
-        slug,
-      },
-    };
+
+export const getStaticProps: GetStaticProps<{ e: string; slug: string }> = async (context) => {
+  const { e, slug } = context.params || { e: '', slug: '' };
+
+  if (typeof e === 'string' && typeof slug === 'string') {
+    // Check if e is 'articles' or 'projects' (or any other valid values)
+    if (e === 'articles' || e === 'projects') {
+      return {
+        props: {
+          e,
+          slug,
+        },
+      };
+    }
   }
 
+  // Return a notFound result if the conditions are not met
   return {
     notFound: true,
   };
