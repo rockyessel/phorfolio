@@ -1,21 +1,23 @@
 import React from 'react'
 import { CommonPath } from '@/interface';
-import EditArticlePage from '@/components/dashboard/edit/article';
-import EditProjectPage from '@/components/dashboard/edit/project';
+import EditArticlePage from '../../../../../components/dashboard/edit/article';
+import EditProjectPage from '../../../../../components/dashboard/edit/project';
 import { getAllProjectSlugs } from '@/utils/outerbase-req/projects';
 import { getAllArticlesSlugs } from '@/utils/outerbase-req/articles';
 import { GetStaticPaths, GetStaticProps, InferGetServerSidePropsType } from 'next';
 
 const EditContentPage = (props: InferGetServerSidePropsType<typeof getStaticProps>) => {
   switch (props.e) {
-    case 'articles':
-      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
-        <EditArticlePage slug={props.slug} e={props.e} />
-      </main>)
     
     case 'projects':
       return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
         <EditProjectPage slug={props.slug} e={props.e} />;
+      </main>)
+
+    
+    case 'articles':
+      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+        <EditArticlePage slug={props.slug} e={props.e} />
       </main>)
     
       default:
