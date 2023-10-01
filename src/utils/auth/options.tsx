@@ -160,7 +160,7 @@ export const authOptions: AuthOptions = {
     sessionToken: {
       name: 'next-auth.session-token',
       options: {
-        domain: '.test.com',
+        domain:  process.env.NODE_ENV === 'production' ? '.phorfolio.site':'.test.com',
         path: '/',
         httpOnly: true,
         sameSite: 'lax',
