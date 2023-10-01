@@ -50,7 +50,7 @@ const ProjectHeader = (props: Props) => {
               if (!likedState) {
                 const handleLikeProject = async () => {
                   likeProject(props.data.id).then((res) =>
-             
+                    console.log('Liked')
                   );
                   setLikedState(true);
                   setLikeCount(props.data.liked_count + 1);

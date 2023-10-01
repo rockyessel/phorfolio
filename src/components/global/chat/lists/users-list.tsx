@@ -44,6 +44,7 @@ const ChatUsersList = ({ setSelectedConversation, conversation }: Props) => {
 
       fetchData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversation.user_id]);
 
   return (
