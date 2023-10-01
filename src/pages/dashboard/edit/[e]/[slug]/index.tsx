@@ -9,11 +9,19 @@ import { GetStaticPaths, GetStaticProps, InferGetServerSidePropsType } from 'nex
 const EditContentPage = (props: InferGetServerSidePropsType<typeof getStaticProps>) => {
   switch (props.e) {
     case 'articles':
-      return <EditArticlePage slug={props.slug} e={props.e} />
+      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+        <EditArticlePage slug={props.slug} e={props.e} />
+      </main>)
+    
     case 'projects':
-      return <EditProjectPage slug={props.slug} e={props.e} />;
+      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+        <EditProjectPage slug={props.slug} e={props.e} />;
+      </main>)
+    
       default:
-      return <EditProjectPage slug={props.slug} e={props.e} />;
+      return (<main className='relative w-full h-screen overflow-y-auto flex flex-col'>
+      <EditProjectPage slug={props.slug} e={props.e} />;
+      </main>)
   }
 };
 
@@ -38,7 +46,7 @@ export const getStaticPaths: GetStaticPaths<{ e: string; slug: string }> = async
 export const getStaticProps: GetStaticProps<{ e: string; slug: string }> = async (context) => {
   // @ts-ignore
   const { e, slug }: { e: string; slug: string } = context.params || { e: '', slug: '' };
-  if (e === 'articles' || e === 'projects' || e === 'shop') {
+  if (e === 'articles' || e === 'projects') {
     return {
       props: {
         e,
