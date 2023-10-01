@@ -55,7 +55,7 @@ const TextEditor = (props: Props) => {
         placeholder: 'Am a web developer that...',
         inlineToolbar: true,
         // @ts-expect-error
-        data: { blocks: oldContent?.blocks },
+        data: { blocks: props.oldContent?.blocks },
         tools: {
           header: Header,
           linkTool: {
