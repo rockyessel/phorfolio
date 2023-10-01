@@ -21,7 +21,7 @@ interface Props {
   slug: string;
 }
 
-const ~ = (props: Props) => {
+const EditProjectPage = (props: Props) => {
   const [editContent, setEditContent] = React.useState<OutputData>();
   const [showMetaDataDrawer, setShowMetaDataDrawer] =
     React.useState<boolean>(false);
