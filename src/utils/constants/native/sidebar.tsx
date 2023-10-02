@@ -18,12 +18,12 @@ export const SidebarList = [
 ];
 
 export const accordionSideList = [
-  {
-    name: 'Dashboard',
-    slug: '/dashboard',
-    list: [],
-    icon: <BiSolidDashboard />,
-  },
+  // {
+  //   name: 'Dashboard',
+  //   slug: '/dashboard',
+  //   list: [],
+  //   icon: <BiSolidDashboard />,
+  // },
   {
     name: 'Articles',
     slug: '/dashboard/articles',

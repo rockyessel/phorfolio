@@ -10,7 +10,7 @@ const AuthenticationPage = (props: InferGetServerSidePropsType<typeof getStaticP
   const router = useRouter();
 
   React.useEffect(() => {
-    if (status === 'authenticated') router.push('/dashboard');
+    if (status === 'authenticated') router.push('/dashboard/articles');
   }, [router, status]);
 
   return <AuthUI type={props.auth} />;
