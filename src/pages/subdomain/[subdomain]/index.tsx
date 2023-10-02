@@ -1,13 +1,17 @@
 import { useRouter } from 'next/router';
 import {
+  ApiResponse,
   ArticleResponse,
   HomeContent,
   ProjectResponse,
+  UserData,
 } from '@/interface';
 import { GetStaticProps, InferGetServerSidePropsType } from 'next';
 import { defaultMetaData } from '@/utils/constants/native/head';
+import Layout from '@/components/global/native/layout';
 import Hero from '@/components/global/native/hero';
 import ProjectSection from '@/components/projects/project-section';
+import ContactSection from '@/components/global/contact-section';
 import { getHomeContentByUserId } from '@/utils/outerbase-req/components';
 import {
   findUserByUsername,
@@ -42,7 +46,10 @@ const Homepage = (
         professionalProjects={props.projects.response?.items}
       />
       <ArticleSection articles={props.articles.response.items} />
-      <ShopSection />
+      {/* <ShopSection /> */}
+      <ContactSection
+        footerDescription={props.homeContent.footer_description}
+      />
     </TemplateLayout>
   );
 };
