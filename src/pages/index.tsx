@@ -22,15 +22,13 @@ export default function Home() {
         <div className=' md:mt-16 sm:mt-12 mt-10 flex items-center md:space-x-6 space-x-4'>
           <Link
             className='flex items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
-            href='/explore'
+            href={
+              process.env.NODE_ENV === 'production'
+                ? 'https://phorfolio.site/a/register'
+                : 'http://test.com:3000/a/register'
+            }
           >
-            Meet
-          </Link>
-          <Link
-            className='flex items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
-            href='/explore'
-          >
-            Explore
+            Join us now
           </Link>
         </div>
       </main>
