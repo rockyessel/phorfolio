@@ -4,6 +4,7 @@ import { IdGen } from '@/utils/helpers';
 import { useSession } from 'next-auth/react';
 import { CommentProps, User } from '@/interface';
 import { createComment, createReply } from '@/utils/outerbase-req/comment';
+import Link from 'next/link';
 
 interface Props {
   type: string;
@@ -18,7 +19,7 @@ const CreateCommentInput = (props: Props) => {
   const isProjectPath = router.asPath.includes('projects') ? props.id : '';
   const isArticlePath = router.asPath.includes('articles') ? props.id : '';
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const user = { ...session?.user } as User;
 
   const handleSubmission = async (event: React.SyntheticEvent) => {
@@ -65,13 +66,28 @@ const CreateCommentInput = (props: Props) => {
           onChange={(event) => setCommentContent(event.target.value)}
         ></textarea>
       </div>
-      <button
-        title='Post Comment'
-        type='submit'
-        className='inline-flex m-5 items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
-      >
-        Post Comment
-      </button>
+      {status === 'unauthenticated' ? (
+        <Link
+          href={
+            process.env.NODE_ENV === 'production'
+              ? 'https://phorfolio.site/a/register'
+              : 'http://test.com:3000/a/register'
+          }
+          title='Post Comment'
+          type='submit'
+          className='inline-flex m-5 items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
+        >
+          Post Comment
+        </Link>
+      ) : (
+        <button
+          title='Post Comment'
+          type='submit'
+          className='inline-flex m-5 items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
+        >
+          Post Comment
+        </button>
+      )}
     </form>
   );
 };
