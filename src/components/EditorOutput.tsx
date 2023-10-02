@@ -177,7 +177,7 @@ function CustomListRenderer({
 }: {
   data: { style: string; items: any[] };
 }) {
-  // Render a simple list
+ 
   if (data.style === 'unordered') {
     return (
       <ul className='list-disc'>
@@ -187,7 +187,7 @@ function CustomListRenderer({
       </ul>
     );
   } else if (data.style === 'ordered') {
-    // Render an ordered list
+    
     return (
       <ol className='list-decimal'>
         {data.items.map((item, index) => (
@@ -196,7 +196,7 @@ function CustomListRenderer({
       </ol>
     );
   } else {
-    // Handle other list styles if needed
+    
     return null;
   }
 }
@@ -229,7 +229,7 @@ function CustomHeaderRenderer({ data }: { data: any }) {
     case 6:
       return <h6>{data.text}</h6>;
     default:
-      return <div>{data.text}</div>; // Default to a div for unknown levels
+      return <div>{data.text}</div>; 
   }
 }
 
@@ -237,9 +237,8 @@ const renderers = {
   image: CustomImageRenderer,
   code: CustomCodeRenderer,
   paragraph: CustomParagraphRenderer,
-  list: CustomListRenderer, // Add your custom list renderer here
-  linkTool: CustomLinkRenderer, // Add your custom link renderer here
-  header: CustomHeaderRenderer,
+  list: CustomListRenderer,
+  linkTool: CustomLinkRenderer,
 };
 
 const EditorOutput = ({ content }: Props) => {
