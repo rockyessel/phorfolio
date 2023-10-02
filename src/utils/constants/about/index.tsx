@@ -1,4 +1,5 @@
-import devicons from '../../../../devicon.json';
+import { devicon } from "../devicon";
+
 
 const availableLanguages = [
   { name: 'JavaScript', value: 'javascript' },
@@ -63,7 +64,7 @@ const webDevelopmentFrameworks = [
   { name: 'Spring Framework', value: 'springframework' },
 ];
 
-const frameworks = devicons.filter((frameworks) =>
+const frameworks = devicon.filter((frameworks) =>
   frameworks.tags.includes('framework')
 );
 
@@ -74,7 +75,7 @@ const structureFrameworks = frameworks.map((framework) => {
   };
 });
 
-const versionControls = devicons.filter((vc) =>
+const versionControls = devicon.filter((vc) =>
   vc.tags.includes('version-control')
 );
 
@@ -85,7 +86,7 @@ const structureVersionControls = versionControls.map((vc) => {
   };
 });
 
-const database = devicons.filter((db) => db.tags.includes('database'));
+const database = devicon.filter((db) => db.tags.includes('database'));
 
 const structureDatabase = database.map((db) => {
   return {
@@ -94,7 +95,7 @@ const structureDatabase = database.map((db) => {
   };
 });
 
-const testers = devicons.filter((testing) => testing.tags.includes('testing'));
+const testers = devicon.filter((testing) => testing.tags.includes('testing'));
 
 const structureTesters = testers.map((testing) => {
   return {
@@ -103,7 +104,7 @@ const structureTesters = testers.map((testing) => {
   };
 });
 
-const library = devicons.filter((lib) => lib.tags.includes('library'));
+const library = devicon.filter((lib) => lib.tags.includes('library'));
 
 const structureLibrary = library.map((lib) => {
   return {
@@ -176,11 +177,11 @@ export const developerToolsAndTech = [
 
 export const getToolLogoUrl = (tool: string):string => {
   const toolName = tool?.toLowerCase().trim();
-  const filteredTool = devicons.filter((toolLogo) => toolLogo?.name === toolName).pop()?.versions.svg;
+  const filteredTool = devicon.filter((toolLogo) => toolLogo?.name === toolName).pop()?.versions.svg;
   if (filteredTool?.includes('plain')) {
-    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-plain.svg`;
+    return `https://cdn.jsdelivr.net/gh/devicon/devicon/icons/${toolName}/${toolName}-plain.svg`;
   } else if (filteredTool?.includes('original')) {
-    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-original.svg`;
+    return `https://cdn.jsdelivr.net/gh/devicon/devicon/icons/${toolName}/${toolName}-original.svg`;
   } else if (!filteredTool?.includes('plain') && !filteredTool?.includes('original')) {
     return '/favicon-16x16.png';
   }

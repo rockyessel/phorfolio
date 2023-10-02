@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { AboutMe } from '@/interface';
 import React, { useState } from 'react';
-import deviconjson from '../../../../../devicon.json';
 import { getToolLogoUrl } from '@/utils/constants/about';
 
 interface Props {
