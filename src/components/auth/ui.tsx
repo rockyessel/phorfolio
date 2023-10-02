@@ -157,7 +157,11 @@ const AuthUI = (props: Props) => {
               <p className='mt-8'>
                 Need an account?{' '}
                 <Link
-                  href='/a/register'
+                  href={
+                    process.env.NODE_ENV === 'production'
+                      ? 'https://phorfolio.site/a/register'
+                      : 'http://test.com:3000/a/register'
+                  }
                   className='text-rose-500 hover:text-rose-700 font-semibold'
                 >
                   Create an account
