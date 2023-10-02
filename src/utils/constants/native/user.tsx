@@ -9,7 +9,7 @@ export const userCardList = {
       slug: `${process.env.NODE_ENV === 'production' ? 'phorfolio.site' : 'localhost:3000'}`,
       icon: <MdOutlineSportsBasketball />,
     },
-    { name: 'Dashboard', slug: '/dashboard', icon: <BsFillCollectionFill /> },
+    { name: 'Dashboard', slug: `${process.env.NODE_ENV === 'production' ? 'https://phorfolio/dashboard/articles' : ''}`, icon: <BsFillCollectionFill /> },
   ],
   singOut: [
     { name: 'Sign out', slug: '' },
