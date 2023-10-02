@@ -141,9 +141,6 @@ export const initialAboutMe = {
   show_github_graph: false,
 };
 
-
-
-
 export const developerToolsAndTech = [
   {
     title: 'Programming Languages',
@@ -176,3 +173,16 @@ export const developerToolsAndTech = [
     developerTools: structureLibrary,
   },
 ];
+
+export const getToolLogoUrl = (tool: string):string => {
+  const toolName = tool?.toLowerCase().trim();
+  const filteredTool = devicons.filter((toolLogo) => toolLogo?.name === toolName).pop()?.versions.svg;
+  if (filteredTool?.includes('plain')) {
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-plain.svg`;
+  } else if (filteredTool?.includes('original')) {
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-original.svg`;
+  } else if (!filteredTool?.includes('plain') && !filteredTool?.includes('original')) {
+    return '/favicon-16x16.png';
+  }
+  return ''
+};

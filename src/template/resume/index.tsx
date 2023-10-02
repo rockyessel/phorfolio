@@ -1,29 +1,41 @@
 import React from 'react';
 import { OutputData } from '@editorjs/editorjs';
 import EditorOutput from '@/components/EditorOutput';
-import { GetStaticProps, InferGetServerSidePropsType } from 'next';
-import { getContent } from '@/utils/outerbase-req/resume';
+import TemplateLayout from '@/components/template/layout';
+import { findUserByUsername } from '@/utils/outerbase-req/users';
+import useSubdomain from '@/hooks/subdomain';
+import { User } from '@/interface';
 
-const ResumePageTemp = (
-  props: InferGetServerSidePropsType<typeof getStaticProps>
-) => {
-  if (!props?.resumeData) {
-    return <p>Loading...</p>; // Add a loading indicator or handle the absence of data gracefully
-  }
+interface Props {
+  resumeData: OutputData;
+}
+
+const ResumePageTemp = (props: Props) => {
+  const [user, setUser] = React.useState<User>();
+  const subdomain = useSubdomain(0);
+
+  React.useEffect(() => {
+    if (subdomain) {
+      findUserByUsername(subdomain).then((user) => setUser(user));
+    }
+  }, [subdomain]);
 
   return (
-    <main className='w-full h-full flex flex-col gap-10 px-4 lg:px-14 xl:px-20 2xl:px-40 py-2 pb-5 mt-5 md:mt-28 prose-2xl prose-headings:text-rose-800 prose-p:text-white prose-gray'>
+    <TemplateLayout
+      description={''}
+      title={`${user?.name}'s Articles`}
+      image={`${user && user.image}`}
+      type={`Articles - ${user?.name}`}
+      alt={`${user?.username}`}
+      keywords={''}
+      publishedAt={new Date().toISOString()}
+      updatedAt={new Date().toISOString()}
+      MIME={`${user && user.image.split('.').pop()}`}
+      author_name={`${user?.name}`}
+    >
       <EditorOutput content={props?.resumeData} />
-    </main>
+    </TemplateLayout>
   );
 };
 
 export default ResumePageTemp;
-export const getStaticProps: GetStaticProps<{resumeData: OutputData | undefined}> = async () => {
-  const resumeData = await getContent();
-  // if (!resumeData) return { notFound: true };
-  return {
-    props: JSON.parse(JSON.stringify({ resumeData })),
-    revalidate: 1,
-  };
-};

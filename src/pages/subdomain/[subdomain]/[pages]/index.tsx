@@ -5,26 +5,31 @@ import ResumePageTemp from '@/template/resume';
 import ContactPageTemp from '@/template/contact';
 import ArticlesPageTemp from '@/template/articles';
 import ProjectsPageTemp from '@/template/projects';
-import { ArticleResponse, ProjectResponse } from '@/interface';
+import { AboutMe, ArticleResponse, ProjectResponse } from '@/interface';
 import { getUsersArticles } from '@/utils/outerbase-req/articles';
 import { getUsersProjects } from '@/utils/outerbase-req/projects';
 import { findUserByUsername, getAllUsername } from '@/utils/outerbase-req/users';
 import { GetStaticPaths, GetStaticProps, InferGetServerSidePropsType } from 'next';
+import { getAboutMeByUserId } from '@/utils/outerbase-req/about';
+import StateLoader from '@/components/global/loader';
+import { getContent } from '@/utils/outerbase-req/resume';
+import { OutputData } from '@editorjs/editorjs';
 
 export default function Index(props: InferGetServerSidePropsType<typeof getStaticProps>) {
   const router = useRouter();
 
   if (router.isFallback) {
     return (
-      <>
-        <p>Loading...</p>
-      </>
+      <main className='w-full h-full flex items-center justify-center gap-2'>
+        <StateLoader styles='text-2xl' />
+        <p className='text-xl'>Loading...</p>
+      </main>
     );
   }
 
   switch (props.pages) {
     case 'about':
-      return <AboutPageTemp aboutData={undefined} />;
+      return <AboutPageTemp aboutData={props.aboutMe} />;
 
     case 'projects':
       return <ProjectsPageTemp projects={props.projects} />;
@@ -33,7 +38,7 @@ export default function Index(props: InferGetServerSidePropsType<typeof getStati
       return <ArticlesPageTemp articles={props.articles} />;
 
     case 'resume':
-      return <ResumePageTemp resumeData={undefined} />;
+      return <ResumePageTemp resumeData={props.resumeData} />;
 
     case 'contact':
       return <ContactPageTemp />;
@@ -77,20 +82,42 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<{ articles: ArticleResponse; projects: ProjectResponse; subdomain: string; pages:string }> = async (context) => {
-  const { params } = context
-  if (!params || typeof params.subdomain !== 'string' || typeof params.pages !== 'string') {
-    return {notFound:true}
+export const getStaticProps: GetStaticProps<{
+  aboutMe: AboutMe;
+  articles: ArticleResponse;
+  projects: ProjectResponse;
+  subdomain: string;
+  pages: string;
+  resumeData: OutputData;
+}> = async (context) => {
+  const { params } = context;
+  if (
+    !params ||
+    typeof params.subdomain !== 'string' ||
+    typeof params.pages !== 'string'
+  ) {
+    return { notFound: true };
   }
-  const { subdomain, pages } = params
+  const { subdomain, pages } = params;
   const user = await findUserByUsername(subdomain);
   const articles = await getUsersArticles(user.id);
   const projects = await getUsersProjects(user.id);
-  if ( !articles || !projects) {
-      return { notFound: true };
+  const aboutMe = await getAboutMeByUserId(user.id);
+  const resumeData = await getContent(user.id);
+  if (!articles || !projects || !aboutMe || !resumeData) {
+    return { notFound: true };
   }
   return {
-    props: JSON.parse(JSON.stringify({ articles, projects, pages, subdomain })),
+    props: JSON.parse(
+      JSON.stringify({
+        articles,
+        projects,
+        pages,
+        subdomain,
+        aboutMe,
+        resumeData,
+      })
+    ),
     revalidate: 1,
   };
 };

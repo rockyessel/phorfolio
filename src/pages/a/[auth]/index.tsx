@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { GetStaticPaths, GetStaticProps, InferGetServerSidePropsType } from 'next';
 
-const AuthenticationPage = (
-  props: InferGetServerSidePropsType<typeof getStaticProps>
-) => {
+const AuthenticationPage = (props: InferGetServerSidePropsType<typeof getStaticProps>) => {
   const { status } = useSession();
   const router = useRouter();
 

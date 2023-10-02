@@ -6,7 +6,9 @@ import {
   increaseArticleViewCount,
   updateCommentOnLoad,
 } from '@/utils/outerbase-req/articles';
-import { ArticleItem, CommentProps } from '@/interface';
+import { ArticleItem, CommentProps, User } from '@/interface';
+import TemplateLayout from '@/components/template/layout';
+import { getUserById } from '@/utils/outerbase-req/users';
 
 interface Props {
   article: ArticleItem;
@@ -15,6 +17,13 @@ interface Props {
 
 const ArticleDetailedPage = (props: Props) => {
   const [hasIncremented, setHasIncremented] = React.useState<boolean>(false);
+  const [user, setUser] = React.useState<User>();
+
+  React.useEffect(() => {
+    if (props.article.user_id) {
+      getUserById(props.article.user_id).then((user) => setUser(user));
+    }
+  }, [props.article.user_id]);
 
   // Update the comment count after a comment is made.
   React.useEffect(() => {
@@ -41,7 +50,18 @@ const ArticleDetailedPage = (props: Props) => {
   }, [hasIncremented, props.article]);
 
   return (
-    <main className=' px-4 lg:px-14 xl:px-20 2xl:px-40 py-2 '>
+    <TemplateLayout
+      description={props.article.description}
+      title={props.article.title}
+      image={props.article.image}
+      type={'Article'}
+      alt={props.article.title}
+      keywords={props.article.keywords}
+      publishedAt={props.article.published_datetime}
+      updatedAt={new Date().toISOString()}
+      MIME={`${props.article.image.split('.').pop()}`}
+      author_name={`${user?.name}`}
+    >
       <ArticleHeader data={props.article} />
       <ArticleDetailedCard data={props.article} />
       {props.comments && props.article.is_comment_disabled === true ? (
@@ -52,7 +72,7 @@ const ArticleDetailedPage = (props: Props) => {
           commentHistory={props.comments}
         />
       )}
-    </main>
+    </TemplateLayout>
   );
 };
 

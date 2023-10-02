@@ -1,16 +1,33 @@
 import TextEditor from '@/components/dashboard/global/text-editor';
 import DashboardLayout from '@/components/dashboard/layout';
+import { User } from '@/interface';
+import {
+  createOrUpdateContent,
+  getContent,
+} from '@/utils/outerbase-req/resume';
 import { OutputData } from '@editorjs/editorjs';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 
 const DashboardResumePage = () => {
-  const [textEditorContentAbout, setTextEditorContentAbout] = React.useState<OutputData>();
+  const [textEditorContentAbout, setTextEditorContentAbout] =
+    React.useState<OutputData>();
+  const { data: session } = useSession();
+  const user = { ...session?.user } as User;
 
-  // const handleSaveContent = async () => {
-  //   if (textEditorContentAbout) {
-  //     await createOrUpdateContent(1,textEditorContentAbout,'public.resume_dev');
-  //   }
-  // };
+  const [oldContent, setOldContent] = React.useState();
+
+  React.useEffect(() => {
+    if (user?.id) {
+      getContent(user?.id).then((content) => setOldContent(content));
+    }
+  }, [user?.id]);
+
+  const handleSaveContent = async () => {
+    if (textEditorContentAbout) {
+      await createOrUpdateContent(user.id, textEditorContentAbout);
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -25,17 +42,17 @@ const DashboardResumePage = () => {
         <div className='flex flex-wrap items-center mt-3 text-sm font-medium sm:mt-0'>
           <button
             className='flex items-center justify-center w-1/2 px-5 py-2 text-sm capitalize transition-colors duration-200 bg-rose-700 border rounded-md sm:w-auto gap-x-2 hover:bg-transparent hover:text-rose-700 hover:border-rose-700 active:ring-2 active:ring-rose-700'
-            // onClick={handleSaveContent}
+            onClick={handleSaveContent}
           >
             Save
           </button>
         </div>
       </div>
-      {/* <TextEditor
-        oldContent={props?.resumeData}
+      <TextEditor
+        oldContent={oldContent}
         value={textEditorContentAbout}
         set={setTextEditorContentAbout}
-      /> */}
+      />
     </DashboardLayout>
   );
 };

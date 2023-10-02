@@ -24,14 +24,14 @@ const Footer = () => {
               About
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               href='/privacy-policy'
               className='mr-4 hover:underline md:mr-6'
             >
               Privacy Policy
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link href='/resume' className='mr-4 hover:underline md:mr-6'>
               Resume

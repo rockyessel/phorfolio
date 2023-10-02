@@ -12,10 +12,6 @@ export const menuLink = [
     url: '/articles',
   },
   {
-    name: 'Shop',
-    url: '/shop',
-  },
-  {
     name: 'About',
     url: '/about',
   },

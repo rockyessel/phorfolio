@@ -336,3 +336,14 @@ export interface ConversationProps {
   subdomain: string;
   created_at: string;
 }
+
+
+export interface ContentCheckerProps {
+  success: boolean;
+  response: {
+    items: {
+      exists: boolean;
+    }[];
+    schema: boolean;
+  };
+}

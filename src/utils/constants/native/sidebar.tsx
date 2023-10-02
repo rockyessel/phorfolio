@@ -36,20 +36,20 @@ export const accordionSideList = [
     list: [],
     icon: <SiPowerpages />,
   },
-  {
-    name: 'Messages',
-    slug: '/dashboard/message',
-    list: [],
-    icon: <BiSolidUser />,
-  },
+  // {
+  //   name: 'Messages',
+  //   slug: '/dashboard/message',
+  //   list: [],
+  //   icon: <BiSolidUser />,
+  // },
   {
     name: 'Pages & Components',
     slug: '',
     list: [
-      {
-        name: 'Contact',
-        slug: '/dashboard/pages/contact',
-      },
+      // {
+      //   name: 'Contact',
+      //   slug: '/dashboard/pages/contact',
+      // },
       {
         name: 'About',
         slug: '/dashboard/pages/about',

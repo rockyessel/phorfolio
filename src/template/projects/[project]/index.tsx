@@ -1,9 +1,11 @@
 import React from 'react';
 import ProjectDetailsCard from '@/components/projects/detailed-card';
 import CommentEngineWrapper from '@/components/comments/wrapper';
-import { CommentProps, ProjectItem } from '@/interface';
+import { CommentProps, ProjectItem, User } from '@/interface';
 import { updateCommentOnLoad } from '@/utils/outerbase-req/articles';
 import { increaseProjectViewCount } from '@/utils/outerbase-req/projects';
+import TemplateLayout from '@/components/template/layout';
+import { getUserById } from '@/utils/outerbase-req/users';
 
 interface Props {
   project: ProjectItem;
@@ -12,6 +14,13 @@ interface Props {
 
 const ProjectDetailedPage = (props: Props) => {
   const [hasIncremented, setHasIncremented] = React.useState<boolean>(false);
+  const [user, setUser] = React.useState<User>();
+
+  React.useEffect(() => {
+    if (props.project.user_id) {
+      getUserById(props.project.user_id).then((user) => setUser(user));
+    }
+  }, [props.project.user_id]);
 
   // Update the comment count after a comment is made.
   React.useEffect(() => {
@@ -37,7 +46,18 @@ const ProjectDetailedPage = (props: Props) => {
   }, [hasIncremented, props.project]);
 
   return (
-    <main className='px-4 lg:px-14 xl:px-20 2xl:px-40 py-2  mt-5 md:mt-28'>
+    <TemplateLayout
+      description={props.project.description}
+      title={props.project.title}
+      image={`${props.project.images.split(',').pop()}`}
+      type={'Projects'}
+      alt={props.project.title}
+      keywords={props.project.keywords}
+      publishedAt={props.project.published_datetime}
+      updatedAt={new Date().toISOString()}
+      MIME={`${props.project.images.split(',').pop()}`}
+      author_name={`${user?.name}`}
+    >
       <ProjectDetailsCard data={props.project} />
       {props.comments && props.project.is_comment_disabled === true ? (
         <p>The author disabled comment for this post.</p>
@@ -47,7 +67,7 @@ const ProjectDetailedPage = (props: Props) => {
           commentHistory={props.comments}
         />
       )}
-    </main>
+    </TemplateLayout>
   );
 };
 

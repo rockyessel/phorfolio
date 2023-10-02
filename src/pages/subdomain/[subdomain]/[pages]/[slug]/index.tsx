@@ -7,15 +7,17 @@ import { getArticleBySlug } from '@/utils/outerbase-req/articles';
 import { getFormatCommentsAndReplies } from '@/utils/outerbase-req/comment';
 import ProjectDetailedPage from '@/template/projects/[project]';
 import { getProjectBySlug } from '@/utils/outerbase-req/projects';
+import StateLoader from '@/components/global/loader';
 
 export default function DetailedPage(props: InferGetServerSidePropsType<typeof getStaticProps>) {
   const router = useRouter();
 
   if (router.isFallback) {
     return (
-      <>
-        <p>Loading...</p>
-      </>
+      <main className='w-full h-full flex items-center justify-center gap-2'>
+        <StateLoader styles='text-2xl' />
+        <p className='text-xl'>Loading...</p>
+      </main>
     );
   }
 

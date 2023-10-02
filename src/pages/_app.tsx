@@ -18,10 +18,8 @@ export default function App({ Component, pageProps: { session, ...pageProps }}: 
   return (
     <React.Fragment>
       <SessionProvider session={session}>
-        {!isDashboardRoute && <Navbar />}
         <NextNProgress color={'#ff5277'} />
         <Component {...pageProps} />
-        {!isDashboardRoute && <Footer />}
         <ToastContainer />
         {!isDashboardRoute && typeof subdomain === 'string' &&  <Chat />}
       </SessionProvider>

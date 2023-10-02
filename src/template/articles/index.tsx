@@ -1,14 +1,37 @@
-import React from 'react'
-import { ArticleResponse } from '@/interface';
+import React from 'react';
+import { ArticleResponse, User } from '@/interface';
 import ArticleCard from '@/components/articles/card';
+import useSubdomain from '@/hooks/subdomain';
+import { findUserByUsername } from '@/utils/outerbase-req/users';
+import TemplateLayout from '@/components/template/layout';
 
 interface Props {
-  articles: ArticleResponse
+  articles: ArticleResponse;
 }
 
 const ArticlesPageTemp = (props: Props) => {
+  const [user, setUser] = React.useState<User>();
+  const subdomain = useSubdomain(0);
+
+  React.useEffect(() => {
+    if (subdomain) {
+      findUserByUsername(subdomain).then((user) => setUser(user));
+    }
+  }, [subdomain]);
+
   return (
-    <main className='w-full h-full flex flex-col gap-10 px-4 lg:px-14 xl:px-20 2xl:px-40 py-2 pb-5 mt-5 md:mt-28'>
+    <TemplateLayout
+      description={''}
+      title={`${user?.name}'s Articles`}
+      image={`${user && user.image}`}
+      type={`Articles - ${user?.name}`}
+      alt={`${user?.username}`}
+      keywords={''}
+      publishedAt={new Date().toISOString()}
+      updatedAt={new Date().toISOString()}
+      MIME={`${user && user.image.split('.').pop()}`}
+      author_name={`${user?.name}`}
+    >
       <div>
         <p className='font-bold text-5xl md:text-7xl capitalize'>
           Information to share
@@ -26,9 +49,8 @@ const ArticlesPageTemp = (props: Props) => {
           <ArticleCard key={index} data={article} />
         ))}
       </ul>
-    </main>
+    </TemplateLayout>
   );
-}
+};
 
-export default ArticlesPageTemp
-
+export default ArticlesPageTemp;

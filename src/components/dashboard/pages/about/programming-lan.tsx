@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { AboutMe } from '@/interface';
 import React, { useState } from 'react';
 import deviconjson from '../../../../../devicon.json';
+import { getToolLogoUrl } from '@/utils/constants/about';
 
 interface Props {
   initialStateValues: { name: string; value: string }[];
@@ -41,21 +42,7 @@ const ProgrammingLanguageDropdown = (props: Props) => {
     setIsOpen(false);
   };
 
-  const getToolLogoUrl = (tool: string) => {
-    const toolName = tool.toLowerCase().trim();
-    const filteredTool = deviconjson
-      .filter((toolLogo) => toolLogo.name === toolName)
-      .pop()?.versions.svg;
-    if (filteredTool?.includes('plain')) {
-      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-plain.svg`;
-    } else if (filteredTool?.includes('original')) {
-      return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${toolName}/${toolName}-original.svg`;
-    } else if (
-      !filteredTool?.includes('plain') &&
-      !filteredTool?.includes('original')
-    )
-      return '/favicon-16x16.png';
-  };
+
 
   const removeTool = (tool: string) => {
     setSelectedTool((preSelectedTool) =>

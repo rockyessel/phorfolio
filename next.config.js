@@ -14,6 +14,9 @@ const nextConfig = {
       'upload.wikimedia.org',
       'flowbite.com',
       'img.freepik.com',
+      'user-images.githubusercontent.com',
+      'logowik.com',
+      'i.pinimg.com',
     ],
   },
   async headers() {

@@ -1,7 +1,7 @@
 import { DefaultMetaDataProps } from '@/interface';
 
 export const defaultMetaData: DefaultMetaDataProps = {
-  description: `I am a front-end developer with experience building web applications. I have a passion for creating a better web, with a focus on speed, ease of use, aesthetic design, accessibility, and user satisfaction. My goal is to work in a company where I can deliver business value while also growing as a web developer.`,
+  description: `A Platform for developers to quickly deploy their projects.`,
   title: `Phorfolio`,
   image: ``,
   alt: 'Homepage',
