@@ -23,7 +23,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }}: 
         <NextNProgress color={'#ff5277'} />
         <Component {...pageProps} />
         <ToastContainer />
-        {!isDashboardRoute && typeof subdomain === 'string' &&  <Chat />}
+        {/* {!isDashboardRoute && typeof subdomain === 'string' &&  <Chat />} */}
       </SessionProvider>
     </React.Fragment>
   );
